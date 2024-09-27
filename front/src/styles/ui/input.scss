@@ -1,0 +1,44 @@
+@import '../variables.scss';
+
+.input-component {
+    position: relative;
+
+    .label-form {
+        position: absolute;
+
+        color: #adadad;
+        font-size: .75rem;
+
+        top: 20%;
+        left: 4%;
+
+        margin: 2.5% 0 0;
+
+        z-index: 2;
+
+        // transition: font-size .1s ease-in-out;
+
+        &.moved {
+            font-size: .5rem;
+            margin: -1%;
+        }
+
+
+        .required {
+            color: #c20000;
+        }
+    }
+
+    input {
+        position: relative;
+        z-index: 1;
+
+        width: 100%;
+
+        border: 1px solid $theme-light;
+        border-radius: 10px;
+
+        padding: 15px 10px 10px;
+        margin: 5px 0;
+    }
+}

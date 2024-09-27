@@ -1,0 +1,59 @@
+@import '../variables.scss';
+
+.button-component {
+    position: relative;
+    z-index: 1;
+        
+    width: 100%;
+
+    color: $theme-light;
+
+    background-color: $theme-dark;
+    border: 1px solid $theme-dark;
+    border-radius: 10px;
+
+    padding: 15px 10px;
+    margin: 5px 0;
+
+    transition: background-color .25s ease-in-out;
+
+    &:hover {
+        background-color: $theme-darken;
+        border-color: $theme-darken;
+    }
+}
+
+.logs {
+    .error, .warn, .info {
+        width: 100%;
+
+        color: $theme-light;
+        border-radius: 10px;
+        border-width: 2px;
+        border-style: solid;
+
+        // text-align: center;
+
+        padding: 15px 10px;
+        margin: 5px 0;
+
+        .title {
+            font-size: 1.25rem;
+        }
+    }
+
+    .error {
+        border-color: $dark-error;
+        background-color: $error;
+    }
+
+    .warn {
+        border-color: $dark-warn;
+        background-color: $warn;
+    }
+
+    .info {
+        border-color: $dark-info;
+        background-color: $info;
+    }
+}

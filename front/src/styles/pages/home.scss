@@ -1,0 +1,55 @@
+/// Функция для создания адаптивной ширины блока с использованием calc()
+/// @param {Number} $w-min - Минимальная ширина блока
+/// @param {Number} $w-max - Максимальная ширина блока
+/// @param {Number} $base - Базовое значение для корректировки (по умолчанию 0)
+/// @param {Number} $v-min - Минимальная ширина экрана (по умолчанию 320px)
+/// @param {Number} $v-max - Максимальная ширина экрана (по умолчанию 1920px)
+@function calcFluidWidth($w-min, $w-max, $base: 0, $v-min: 320px, $v-max: 1920px) {
+
+    // Вычисляем коэффициент изменения ($k)
+    $k: (
+        $w-max - $w-min) / ($v-max - $v-min
+    );
+
+    // Вычисляем точку пересечения ($b)
+    $b: $w-min - $k * $v-min;
+
+    // Приводим точку пересечения к пиксельной единице
+    // $b: $b * 1px;
+
+    // Возвращаем CSS calc() с динамическим изменением
+    @if $base ==0 {
+        @return calc(#{$k} * 100vw + #{$b});
+    }
+
+    @else {
+        @return calc(#{$base} - (#{$k} * 100vw + #{$b}));
+    }
+}
+
+.home {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+
+    height: 100%;
+
+    &__title {
+        .title {
+            text-align: center;
+        }
+    }
+
+    &__content {
+        height: 80%;
+    }
+
+    &__form {
+        margin: 5px;
+    }
+
+    &__form, &__content {
+        width: calcFluidWidth(280px, 320px);
+    }
+}
