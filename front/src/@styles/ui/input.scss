@@ -4,12 +4,14 @@
     position: relative;
 
     .label-form {
+        pointer-events: none;
+
         position: absolute;
 
         color: #adadad;
         font-size: .75rem;
 
-        top: 20%;
+        top: 26%;
         left: 4%;
 
         margin: 2.5% 0 0;
@@ -35,10 +37,17 @@
 
         width: 100%;
 
-        border: 1px solid $theme-light;
-        border-radius: 10px;
+        border: 2px solid $theme-light;
+        border-radius: $border-radius;
+        outline: none;
 
         padding: 15px 10px 10px;
         margin: 5px 0;
+
+        transition: border-color .5s ease-in-out;
+
+        &:focus-visible {
+            border-color: $theme-dark;
+        }
     }
 }

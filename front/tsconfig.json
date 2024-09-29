@@ -24,9 +24,6 @@
       "@app/*": [
         "app/*"
       ],
-      "@styles/*": [
-        "styles/*"
-      ],
       "@shared/*": [
         "shared/*"
       ],
@@ -42,7 +39,18 @@
       "@pages/*": [
         "pages/*"
       ],
-    }
+
+
+      "@styles/*": [
+        "@styles/*"
+      ],
+      "@assets/*": [
+        "@assets/*"
+      ],
+      "@hooks/*": [
+        "@hooks/*"
+      ],
+}
   },
   "include": [
     "src"

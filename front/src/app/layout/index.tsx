@@ -1,3 +1,4 @@
+import Header from '@app/components/Header';
 import React from 'react';
 import { Outlet } from 'react-router-dom';
 
@@ -7,15 +8,11 @@ function Layout() {
         <>
             {/* App header component */}
             <header className="app-header">
-                <div className="app-header__title">
-                    <span>Расписание занятий</span>
-                </div>
-
-                <div className="app-header__nav">
-                    <div className="app-header__nav-item">
-                        Войти
-                    </div>
-                </div>
+                <Header
+                    parent={{
+                        className:'app-header'
+                    }}
+                />
             </header>
 
             {/* App content */}

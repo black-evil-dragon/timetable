@@ -1,0 +1,49 @@
+@import '../variables.scss';
+
+.form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    padding: 3rem 0;
+
+    background-color: $theme-color;
+
+
+    &__content {
+        display: flex;
+        justify-content: space-around;
+        gap: 15px;
+
+        min-width: 550px;
+
+        background-color: #fff;
+        border-radius: 15px;
+
+        padding: 30px;
+        margin: 10px;
+    }
+
+
+    &__text {
+        width: 210px;
+
+        h2 {
+            font-weight: 600;
+        }
+    }
+
+    &__group {
+        width: 90%;
+        max-width: 50%;
+    }
+
+    &__input {
+        // width: 90%;
+    }
+
+    &__button {
+        display: flex;
+        justify-content: end;
+    }
+}

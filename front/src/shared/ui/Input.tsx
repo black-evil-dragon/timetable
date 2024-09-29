@@ -1,22 +1,38 @@
+import useInput from '@hooks/useInput';
 import React from 'react';
 
-import '@styles/ui/input.scss'
+// import '@styles/ui/input.scss'
 
-function Input(
-    props: {
-        className: string,
-        type?: string | 'text',
-        value?: string,
-        onChange?: any,
-        placeholder?: string,
-        required?: boolean,
-    }
-) {
+type InputProps = {
+    className?: string,
+    onChange: any,
+
+    type?: string,
+    value?: string,
+
+    placeholder?: string,
+    required?: boolean,
+}
+
+
+const Input: React.FunctionComponent<InputProps> = ({
+    className = '',
+    onChange,
+    type = 'text',
+    value = '',
+    placeholder = '',
+    required = false,
+}) => {
+
     const labelRef = React.useRef<HTMLDivElement>(null)
+    const InputHook = useInput({
+        initial: value,
+        required: required,
+    })
 
 
-    const changeFocus = (event: React.FocusEvent, isOut: boolean) => {
-        if (props.placeholder && !props.value) {
+    const changeFocus = (isOut: boolean) => {
+        if (placeholder && !value) {
             !isOut ?
                 labelRef.current?.classList.add('moved')
                 :
@@ -26,21 +42,40 @@ function Input(
 
     return (
         <>
-            <div className={`${props.className} input-component`}>
-                {props.placeholder &&
+            <div
+                className={`${className} input-component`}>
+                {placeholder &&
                     <span className="label-form" ref={labelRef}>
-                        {props.placeholder}
-                        {props.required && <span className='required'>*</span>}
+                        {placeholder}
+                        {required && <span className='required'>*</span>}
                     </span>
                 }
 
                 <input
-                    type={props.type}
-                    value={props.value}
-                    onChange={event => props.onChange(event.target.value)}
-                    onFocus={event => changeFocus(event, false)}
-                    onBlur={event => changeFocus(event, true)}
+                    type={type}
+
+                    value={InputHook.value}
+
+                    onChange={
+                        event => {
+                            onChange(event.target.value)
+                        }
+                    }
+
+                    onBlur={
+                        event => {
+                            InputHook.onBlur(event)
+                            changeFocus(true)
+                        }
+                    }
+                    onFocus={event => changeFocus(false)}
                 />
+                {
+                    InputHook.error &&
+                    <span>
+                        {InputHook.error}
+                    </span>
+                }
             </div>
         </>
     );

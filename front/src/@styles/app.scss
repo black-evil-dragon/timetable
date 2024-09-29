@@ -1,3 +1,11 @@
+@import './base.scss';
+
+@import './variables.scss';
+
+@import './ui/button.scss';
+@import './ui/input.scss';
+
+
 /// Функция для создания адаптивной ширины блока с использованием calc()
 /// @param {Number} $w-min - Минимальная ширина блока
 /// @param {Number} $w-max - Максимальная ширина блока
@@ -27,29 +35,64 @@
     }
 }
 
-.home {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
+.app {
+    width: 100%;
+    // height: 100%;
 
-    height: 100%;
 
-    &__title {
-        .title {
-            text-align: center;
+    /*
+    * Header
+    */
+    &-header {
+        // display: flex;
+        // justify-content: space-between;
+        
+        // padding: 1rem .75rem;
+
+        &__content {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+        }
+        
+        &__item {
+            margin: 5px;
+        }
+    
+        &__logo {
+    
+            img {
+                padding: 20px;
+                height: 45px;
+            }
         }
     }
 
-    &__content {
-        height: 80%;
+    
+    /*
+    * Body
+    */
+    &-body {
+        // .page {
+        //     background-color: $theme-light;
+        //     height: 100%;
+    
+        //     padding: 0 5rem;
+        // }
+
+        .content-block {
+            width: 100%;
+
+            padding-right: 5rem;
+            padding-left: 5rem;
+        }
     }
 
-    &__form {
-        margin: 5px;
-    }
-
-    &__form, &__content {
-        width: calcFluidWidth(280px, 320px);
-    }
+    /*
+    * Footer
+    */
+    &-footer {}
 }
+
+
+

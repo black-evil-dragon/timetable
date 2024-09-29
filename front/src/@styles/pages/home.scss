@@ -1,0 +1,26 @@
+.home {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+
+    height: 100%;
+
+    &__title {
+        .title {
+            text-align: center;
+        }
+    }
+
+    &__content {
+        height: 80%;
+    }
+
+    &__form {
+        margin: 5px;
+    }
+
+    &__form, &__content {
+        width: calcFluidWidth(280px, 320px);
+    }
+}

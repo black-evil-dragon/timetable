@@ -1,0 +1,102 @@
+@import '../variables.scss';
+
+.timetable {
+
+    $shell-width: 18rem;
+    $shell-height: 8rem;
+
+
+    &__day {
+        display: flex;
+        
+        padding: 15px 0;
+    }
+
+    &__row {
+
+        border: 1px solid $theme-color;
+
+
+        &.--system {
+            flex-grow: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            span.day {
+                text-orientation: upright;
+                writing-mode: vertical-rl;
+
+                padding: 15px;
+            }
+        }
+    }
+
+    &__items {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+
+        .item {
+            position: relative;
+
+            width: $shell-width;
+            height: $shell-height;
+
+            margin: 15px;
+
+            &.--times {
+                display: flex;
+                flex-direction: column;
+                justify-content: space-around;
+                align-items: center;
+                
+            }
+            
+            .subject {
+                width: 100%;
+                height: 100%;
+                background-color: #fff;
+                
+                border-radius: 15px;
+
+                &.--null {
+                    border: 1px solid $theme-color;
+                    background-color: initial;
+                }
+
+                &__title {
+                    font-size: 1.25rem;
+
+                    text-align: center;
+
+                    padding: 15px 0;
+                    
+                }
+
+                &__content {
+                    display: flex;
+                    justify-content: space-around;
+
+                    .--content-item {
+                        width: calc(100% / 2 - 15px);
+
+                        text-align: center;
+                    }
+                }
+            }
+        }
+
+
+        &.--times {
+            .item {
+                width: initial;
+                height: $shell-height;
+
+                border: 1px solid $theme-color;
+            }
+        }
+    }
+
+
+}

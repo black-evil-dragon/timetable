@@ -29,11 +29,11 @@ function CourseForm() {
             {/* Change to form? */}
             <div className="course-form">
                 
-                <Input className="insitute" placeholder="Институт"/>
+                {/* <Input className="insitute" placeholder="Институт"/>
 
                 <Input className="course" placeholder="Курс" />
 
-                <Input className="group" placeholder="Группа" />
+                <Input className="group" placeholder="Группа" /> */}
 
                 <button className="button-component">Дальше</button>
 
