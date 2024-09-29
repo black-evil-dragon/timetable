@@ -1,28 +1,45 @@
+import { useDrag } from "react-dnd";
 
 
 interface SubjectProps {
-    title?: string,
-    teacher?: string,
-    cabinet?: string,
+    id: number,
+    data: {
+        title?: string,
+        teacher?: string,
+        cabinet?: string,
+    }
 }
 
 const Subject: React.FunctionComponent<SubjectProps> = (props = {
-    title:'',
-    teacher: '',
-    cabinet: '',
+    id: 0,
+    data: {
+        title: '',
+        teacher: '',
+        cabinet: '',
+    }
 }) => {
+
+    const [{ isDragging }, drag] = useDrag(() => ({
+        type: 'subject',
+        item: { slotIndex: props.id },
+        collect: (monitor) => ({
+            isDragging: !!monitor.isDragging(),
+        }),
+    }));
+
+
     return ( 
-        <div className="subject">
+        <div className="subject" data-subject-id={props.id} ref={drag} style={{ opacity: isDragging ? 0.5 : 1 }}>
             <div className="subject__title">
-                {props.title}
+                {props.data.title}
             </div>
             <div className="subject__content">
                 <div className="subject__teacher --content-item">
-                    {props.teacher}
+                    {props.data.teacher}
                 </div>
 
                 <div className="subject__cabinet --content-item">
-                    {props.cabinet}
+                    {props.data.cabinet}
                 </div>
             </div>
         </div>

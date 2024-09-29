@@ -1,9 +1,49 @@
 import React from "react";
-import Subject from "./Subject";
+
+import { DndProvider } from 'react-dnd'
+import { HTML5Backend } from 'react-dnd-html5-backend'
+
+
+import Item from "./Item";
 
 interface TimetableCreateProps {
 
 }
+interface ISubjectData {
+    hasSubGroup: boolean;
+    subGroup: number;
+    title: string;
+    teacher: string;
+    cabinet: string;
+}
+
+interface ISubject {
+    id: number;
+    data: ISubjectData | null;
+}
+
+interface IScheduleItem {
+    id: number;
+    day: string;
+    subjects: ISubject[];
+}
+
+interface IGroup {
+    title: string;
+    schedule: IScheduleItem[];
+}
+
+interface ISlot {
+    slot: number;
+    start: string;
+    end: string;
+}
+
+interface IWeekday {
+    weekday: string;
+    slots: ISlot[];
+}
+
 
 const data = {
     "groups": [
@@ -15,86 +55,46 @@ const data = {
                     "day": "Понедельник",
                     "subjects": [
                         {
-                            "position": 0,
-                            "hasSubGroup": false,
-                            "subGroup": 0,
-                            "title": "Дисциплина-Название",
-                            "teacher": "Доц. Преподаватель-Имя",
-                            "cabinet": "100 к.4"
-                        },
-                        null,
-                        {
-                            "position": 2,
-                            "hasSubGroup": false,
-                            "subGroup": 0,
-                            "title": "Дисциплина-Название",
-                            "teacher": "Доц. Преподаватель-Имя",
-                            "cabinet": "100 к.4"
+                            "id": 0,
+                            "data": {
+                                "hasSubGroup": false,
+                                "subGroup": 0,
+                                "title": "Дисциплина-Название 1",
+                                "teacher": "Доц. Преподаватель-Имя",
+                                "cabinet": "100 к.4"
+                            }
                         },
                         {
-                            "position": 3,
-                            "hasSubGroup": false,
-                            "subGroup": 0,
-                            "title": "Дисциплина-Название",
-                            "teacher": "Доц. Преподаватель-Имя",
-                            "cabinet": "100 к.4"
-                        }
+                            "id": 1,
+                            "data": null
+                        },
+                        {
+                            "id": 2,
+                            "data": {
+                                "hasSubGroup": false,
+                                "subGroup": 0,
+                                "title": "Дисциплина-Название 2",
+                                "teacher": "Доц. Преподаватель-Имя",
+                                "cabinet": "100 к.4"
+                            }
+                        },
+                        {
+                            "id": 3,
+                            "data": {
+                                "hasSubGroup": false,
+                                "subGroup": 0,
+                                "title": "Дисциплина-Название 3",
+                                "teacher": "Доц. Преподаватель-Имя",
+                                "cabinet": "100 к.4"
+                            }
+                        },
                     ]
                 }
             ]
         },
         {
             "title": "4Б09 ПИБ-21",
-            "schedule": [
-                {
-                    "id": 0,
-                    "day": "Понедельник",
-                    "subjects": [
-                        {
-                            "position": 0,
-                            "hasSubGroup": false,
-                            "subGroup": 0,
-                            "title": "Дисциплина-Название",
-                            "teacher": "Доц. Преподаватель-Имя",
-                            "cabinet": "100 к.4"
-                        },
-                        null,
-                        null,
-                        {
-                            "position": 3,
-                            "hasSubGroup": false,
-                            "subGroup": 0,
-                            "title": "Дисциплина-Название",
-                            "teacher": "Доц. Преподаватель-Имя",
-                            "cabinet": "100 к.4"
-                        },
-                    ]
-                },
-                {
-                    "id": 1,
-                    "day": "Вторник",
-                    "subjects": [
-                        {
-                            "position": 0,
-                            "hasSubGroup": false,
-                            "subGroup": 0,
-                            "title": "Дисциплина-Название",
-                            "teacher": "Доц. Преподаватель-Имя",
-                            "cabinet": "100 к.4"
-                        },
-                        null,
-                        null,
-                        {
-                            "position": 3,
-                            "hasSubGroup": false,
-                            "subGroup": 0,
-                            "title": "Дисциплина-Название",
-                            "teacher": "Доц. Преподаватель-Имя",
-                            "cabinet": "100 к.4"
-                        },
-                    ]
-                }
-            ]
+            "schedule": []
         }
     ],
 
@@ -154,10 +154,18 @@ const data = {
 
 const TimetableCreate: React.FunctionComponent<TimetableCreateProps> = () => {
 
+    const [groups, setGroups] = React.useState(data.groups)
+    const [schedule, setSchedule] = React.useState(data.schedule)
 
-    const updateSlots = () => {
-        const data = []
-    }
+    const moveSubject = (fromIndex: number, toIndex: number) => {
+        const updatedGroups = [...groups];
+        const fromSubject = updatedGroups[0].schedule[0].subjects[fromIndex];
+
+        updatedGroups[0].schedule[0].subjects[fromIndex] = updatedGroups[0].schedule[0].subjects[toIndex];
+        updatedGroups[0].schedule[0].subjects[toIndex] = fromSubject;
+
+        setGroups(updatedGroups);
+    };
 
 
     React.useEffect(() => {
@@ -166,47 +174,66 @@ const TimetableCreate: React.FunctionComponent<TimetableCreateProps> = () => {
 
     return (
         <>
-            <div className="timetable">
-                {
-                    data.schedule.map((scheduleItem: any, scheduleIndex: any) => <>
-                        <div className="timetable__day">
-                            <div className="timetable__row --system">
-                                <span className="day">{scheduleItem.weekday}</span>
-                            </div>
-                            <div className="timetable__row --system">
-                                <div className="timetable__items --times">
-                                    {
-                                        scheduleItem.slots.map((slotItem: any, slotIndex: any) => <>
-                                            <div className="item --times">
-                                                <span className="time">{slotItem.start}</span>
-                                                <span className="time">-</span>
-                                                <span className="time">{slotItem.end}</span>
-                                            </div>
-                                        </>)
-                                    }
+            <DndProvider backend={HTML5Backend}>
+                <div className="timetable">
+                    {
+                        schedule.map((scheduleItem: any, scheduleIndex: number) => <>
+                            <div className="timetable__day" key={scheduleIndex}>
+                                <div className="timetable__row --system">
+                                    <span className="day">{scheduleItem.weekday}</span>
                                 </div>
-                            </div>
-                            {
-                                data.groups.map((groupItem: any, groupIndex: any) => <>
-                                    <div className="timetable__row">
-                                        <div className="timetable__items">
-                                            {
-                                                groupItem.schedule[scheduleIndex] ? groupItem.schedule[scheduleIndex].subjects.map((subjectItem: any, subjectIndex: any) => <>
-                                                    <div className="item">
-                                                        {subjectItem ? <Subject {...subjectItem} /> : <div className="subject --null"></div>}
-                                                    </div>
-                                                </>)
-                                                :
-                                                scheduleItem.slots.map(() => <div className="item"><div className="subject --null"></div></div>)
-                                            }
-                                        </div>
+                                <div className="timetable__row --system">
+                                    <div className="timetable__items --times">
+                                        {
+                                            scheduleItem.slots.map((slotItem: any, slotIndex: number) => <>
+                                                <div className="item --times" key={slotIndex}>
+                                                    <span className="time">{slotItem.start}</span>
+                                                    <span className="time">-</span>
+                                                    <span className="time">{slotItem.end}</span>
+                                                </div>
+                                            </>)
+                                        }
                                     </div>
-                                </>)
-                            }
-                        </div>
+                                </div>
+                                {
+                                    groups.map((groupItem: any, groupIndex: number) => <>
+                                        <div className="timetable__row" key={groupIndex}>
+                                            <div className="timetable__items">
+                                                {
+                                                    groupItem.schedule[scheduleIndex] ? groupItem.schedule[scheduleIndex].subjects.map((subjectItem: any, subjectIndex: number) => <>
+                                                        <Item
+                                                            key={subjectIndex}
+                                                            slotIndex={subjectIndex}
+                                                            scheduleIndex={scheduleIndex}
+                                                            groupIndex={groupIndex}
+                                                            subjectItem={subjectItem}
+                                                            moveSubject={(fromIndex: number, toIndex: number) => moveSubject(fromIndex, toIndex)}
+                                                        />
+                                                    </>)
+                                                        :
+                                                        scheduleItem.slots.map((_: any, key: number) => (
+                                                            <Item
+                                                                key={key}
+                                                                slotIndex={key}
+                                                                groupIndex={groupIndex}
+                                                                scheduleIndex={scheduleIndex}
+                                                                moveSubject={(fromIndex: number, toIndex: number) => moveSubject(fromIndex, toIndex)}
+                                                            />
+                                                        ))
+
+                                                }
+                                            </div>
+
+
+                                        </div>
+                                    </>)
+                                }
+                            </div>
+                        
                     </>)
                 }
             </div>
+            </DndProvider >
         </>
     );
 }
