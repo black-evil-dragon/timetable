@@ -1,4 +1,5 @@
 import { useDrag } from "react-dnd";
+import { PositionItemType } from "../types";
 
 
 interface SubjectProps {
@@ -7,7 +8,8 @@ interface SubjectProps {
         title?: string,
         teacher?: string,
         cabinet?: string,
-    }
+    },
+    itemPosition?: PositionItemType
 }
 
 const Subject: React.FunctionComponent<SubjectProps> = (props = {
@@ -21,7 +23,10 @@ const Subject: React.FunctionComponent<SubjectProps> = (props = {
 
     const [{ isDragging }, drag] = useDrag(() => ({
         type: 'subject',
-        item: { slotIndex: props.id },
+        item: { 
+            slotIndex: props.id,
+            itemPosition: props.itemPosition,
+        },
         collect: (monitor) => ({
             isDragging: !!monitor.isDragging(),
         }),
