@@ -167,6 +167,8 @@ export const data = {
 }
 
 // 
+export type manageItemContentType = (itemPosition: PositionItemType, action: string) => void
+
 export type GroupType = {
     title: string;
     slot: number;

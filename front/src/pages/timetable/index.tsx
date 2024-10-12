@@ -1,6 +1,6 @@
 import React from "react";
 
-import { data, GroupType, SlotType, SubjectType } from "./types";
+import { data, GroupType, SlotType, SubjectType } from "../../shared/types/types";
 
 import { useParams } from "react-router-dom";
 import TimetableCreate from "./ui/TimetableCreate";
@@ -21,6 +21,7 @@ const Timetable: React.FunctionComponent<TimetableProps> = () => {
     
     const [groups, setGroups] = React.useState(data.groups)
     const [schedule, setSchedule] = React.useState(data.schedule)
+
 
     const prepareData = () => {
         const updatedGroups = [...groups];

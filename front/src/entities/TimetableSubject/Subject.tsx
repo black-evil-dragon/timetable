@@ -1,5 +1,5 @@
 import { useDrag } from "react-dnd";
-import { PositionItemType } from "../types";
+import { PositionItemType } from "../../shared/types/types";
 
 
 interface SubjectProps {
