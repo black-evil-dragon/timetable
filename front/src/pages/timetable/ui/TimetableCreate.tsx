@@ -1,13 +1,14 @@
 import React, { act } from "react";
-
 import { DndProvider } from 'react-dnd'
 import { HTML5Backend } from 'react-dnd-html5-backend'
 
 
-import Item from "@features/TimetableItem/ui/Item";
-import { GroupType, manageItemContentType, PositionItemType, ScheduleType, SlotType, SubjectType } from "../../../shared/types/types";
+// Model - Logic code
 import { renderGroupItems } from "../model/renderItems";
 
+
+// Types
+import { GroupType, manageItemContentType, PositionItemType, ScheduleType, SlotType } from "@shared/types/types";
 
 
 interface TimetableCreateProps {
@@ -118,46 +119,5 @@ const TimetableCreate: React.FunctionComponent<TimetableCreateProps> = ({ data }
         </>
     );
 }
-
-// groups.map((groupItem: GroupType, groupIndex: number) => <>
-//     <div className="timetable__row" key={groupIndex}>
-//         <div className="timetable__items">
-//             {
-//                 groupItem.schedule[scheduleIndex] ? groupItem.schedule[scheduleIndex].subjects.map((subjectItem: SubjectType, subjectIndex: number) => {
-//                     const itemProps = {
-//                         itemPosition: {
-//                             scheduleIndex: scheduleIndex,
-//                             groupIndex: groupIndex,
-//                             slotIndex: subjectIndex,
-//                         },
-
-//                         moveSubject: (fromPosition: PositionItemType, toPosition: PositionItemType,) => moveSubject(fromPosition, toPosition)
-//                     }
-//                     return (
-//                         <Item
-//                             key={subjectIndex}
-//                             {...itemProps}
-//                             subjectItem={subjectItem}
-//                         />
-//                     )
-//                 })
-//                     :
-//                     scheduleItem.slots.map((_: any, key: number) => (
-//                         <></>
-//                         // <Item
-//                         //     key={key}
-
-
-
-//                         //     moveSubject={(fromPosition: PositionItemType, toPosition: PositionItemType,) => moveSubject(fromPosition, toPosition)}
-//                         // />
-//                     ))
-//             }
-//         </div>
-
-
-//     </div>
-// </>)
-
 
 export default TimetableCreate;

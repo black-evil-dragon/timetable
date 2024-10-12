@@ -1,5 +1,5 @@
 import { Item } from "@features/TimetableItem";
-import { GroupType, manageItemContentType, PositionItemType, ScheduleType, SubjectType } from "@shared/types/types";
+import { GroupType, manageItemContentType, PositionItemType, SubjectType } from "@shared/types/types";
 
 
 interface renderGroupItemsTypes {
