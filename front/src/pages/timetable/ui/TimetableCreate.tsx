@@ -86,7 +86,7 @@ const TimetableCreate: React.FunctionComponent<TimetableCreateProps> = ({ data }
             <DndProvider backend={HTML5Backend}>
                 <div className="timetable">
                     {
-                        schedule.map((scheduleItem: ScheduleType, scheduleIndex: number) => <>
+                        schedule.map((scheduleItem: ScheduleType, scheduleIndex: number) => (
                             <div className="timetable__day" key={scheduleIndex}>
                                 <div className="timetable__row --system">
                                     <span className="day">{scheduleItem.weekday}</span>
@@ -94,24 +94,24 @@ const TimetableCreate: React.FunctionComponent<TimetableCreateProps> = ({ data }
                                 <div className="timetable__row --system">
                                     <div className="timetable__items --times">
                                         {
-                                            scheduleItem.slots.map((slotItem: SlotType, slotIndex: number) => <>
+                                            scheduleItem.slots.map((slotItem: SlotType, slotIndex: number) => (
                                                 <div className="item --times" key={slotIndex}>
                                                     <span className="time">{slotItem.start}</span>
                                                     <span className="time">-</span>
                                                     <span className="time">{slotItem.end}</span>
                                                 </div>
-                                            </>)
+                                            ))
                                         }
                                     </div>
                                 </div>
                                 {
-                                    groups.map((groupItem: GroupType, groupIndex: number) => (
-                                        renderGroupItems({ groupItem, scheduleIndex, groupIndex, moveSubject, manageItemContent})
-                                    ))
+                                    groups.map((groupItem: GroupType, groupIndex: number) => {
+                                        return renderGroupItems({groupItem, scheduleIndex, groupIndex, moveSubject, manageItemContent})
+                                    })
                                 }
                             </div>
 
-                        </>)
+                        ))
                     }
                 </div>
             </DndProvider >

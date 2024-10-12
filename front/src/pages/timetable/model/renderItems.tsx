@@ -20,7 +20,7 @@ export const renderGroupItems = ({
     const subjects = groupItem.schedule[scheduleIndex]?.subjects;
 
     return (
-        <div className="timetable__row" key={groupIndex}>
+        <div className="timetable__row" key={`scheduleIndex-${scheduleIndex}-group-${groupIndex}`}>
             <div className="timetable__items">
                 {subjects ? (
                     subjects.map((subjectItem: SubjectType, subjectIndex: number) => {
@@ -37,7 +37,7 @@ export const renderGroupItems = ({
 
                         return (
                             <Item
-                                key={subjectIndex}
+                                key={`subject-${subjectIndex}`}
                                 {...itemProps}
                             />
                         );
