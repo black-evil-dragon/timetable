@@ -1,0 +1,27 @@
+# Используем легковесный образ Node.js для production
+FROM node:18-alpine AS build
+
+# Устанавливаем рабочую директорию
+WORKDIR /app
+
+# Копируем файлы проекта
+COPY client/package*.json ./
+COPY client/. .
+
+# Устанавливаем зависимости для production
+RUN npm ci --only=production
+
+# Собираем приложение для production
+RUN npm run build
+
+# Используем nginx для production-сервера
+FROM nginx:stable-alpine
+
+# Копируем собранное приложение
+COPY --from=build /app/build /usr/share/nginx/html
+
+# Объявляем порт
+EXPOSE 80
+
+# Запускаем nginx
+CMD ["nginx", "-g", "daemon off;"] 
