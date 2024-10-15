@@ -1,3 +1,6 @@
 # timetable
 Pet-проект | Курсовая | Университетский проект
-amogus
+
+
+Docker
+TypeScript, React, Feature-Sliced-Design

@@ -3,13 +3,14 @@ version: '3.8'
 services:
   client:
     build:
-      context: ./client # Путь к директории с Dockerfile
+      context: ./client
+      dockerfile: Dockerfile.dev
     ports:
-      - "3000:3000" # Пробрасываем порт для доступа к приложению
+      - "3000:3000"
   nginx:
     image: nginx:alpine
     volumes:
-      - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf
+      - ./nginx/nginx.dev.conf:/etc/nginx/conf.d/default.conf
     ports:
       - "80:80"
     depends_on:
