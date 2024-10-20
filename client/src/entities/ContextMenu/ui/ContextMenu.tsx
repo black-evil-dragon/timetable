@@ -1,15 +1,25 @@
 import React from "react";
 
-interface ItemContextMenuProps {
+import { renderContextMenu } from "..";
+
+import { Action, Actions } from "@shared/types/context-menu";
+
+import '@styles/features/index.scss'
+
+interface ContextMenuProps {
     top: number;
     left: number;
     children?: React.ReactNode;
+
+    actions: Actions
+
     onAction: (action: string) => void;
     onClose: () => void;
 }
 
-const ItemContextMenu: React.FunctionComponent<ItemContextMenuProps> = ({
+const ContextMenu: React.FunctionComponent<ContextMenuProps> = ({
     top, left, children,
+    actions,
     onAction, onClose
 }) => {
 
@@ -21,8 +31,8 @@ const ItemContextMenu: React.FunctionComponent<ItemContextMenuProps> = ({
         }
     };
 
-    const onClickHandler = (action: string) => {
-        onAction(action);
+    const onClickHandler = (action: Action) => {
+        action.type && onAction(action.type);
         onClose()
     };
 
@@ -40,25 +50,13 @@ const ItemContextMenu: React.FunctionComponent<ItemContextMenuProps> = ({
             ref={menuRef}
             className="context-menu"
             style={{
-                position: 'absolute',
                 top: `${top}px`,
                 left: `${left}px`,
-                background: 'white',
-                boxShadow: '0px 0px 5px rgba(0,0,0,0.1)',
-                padding: '10px',
-                zIndex: 1000,
             }}
         >
-            <button onClick={() => onClickHandler('create')}>
-                Создать
-            </button>
-
-            <button onClick={() => onClickHandler('delete')}>
-                Удалить
-            </button>
-            
+            {renderContextMenu({ actions, onClickHandler})}
         </div>
     );
 }
 
-export default ItemContextMenu;
+export default ContextMenu;

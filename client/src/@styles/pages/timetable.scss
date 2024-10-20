@@ -32,12 +32,25 @@
         }
     }
 
-    &__items {
+    &__slots {
         display: flex;
         flex-direction: column;
         gap: 10px;
 
-        .item {
+        &.--times {
+            width: 100%;
+            height: 100%;
+            justify-content: space-around;
+            .time {
+                display: flex;
+                flex-direction: column;
+                justify-content: space-around;
+                align-items: center;
+            }
+    
+        }
+
+        .slot {
             position: relative;
 
             width: $shell-width;
@@ -45,15 +58,8 @@
 
             margin: 15px;
 
-            &.--times {
-                display: flex;
-                flex-direction: column;
-                justify-content: space-around;
-                align-items: center;
-                
-            }
-            
-            .subject {
+
+            .item {
                 width: 100%;
                 height: 100%;
                 background-color: #fff;
@@ -89,7 +95,7 @@
 
 
         &.--times {
-            .item {
+            .time {
                 width: initial;
                 height: $shell-height;
 

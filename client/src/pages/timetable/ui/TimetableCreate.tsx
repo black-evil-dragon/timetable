@@ -4,11 +4,11 @@ import { HTML5Backend } from 'react-dnd-html5-backend'
 
 
 // Model - Logic code
-import { renderGroupItems } from "../model/renderItems";
+import { renderSlots } from "../model/renderSlots";
 
 
 // Types
-import { GroupType, manageItemContentType, PositionItemType, ScheduleType, SlotType } from "@shared/types/types";
+import { GroupType, manageItemContentType, ScheduleType, PositionSlotType, TimeSlotType } from "@shared/types";
 
 
 interface TimetableCreateProps {
@@ -25,16 +25,16 @@ const TimetableCreate: React.FunctionComponent<TimetableCreateProps> = ({ data }
     const [schedule, setSchedule] = React.useState(data.schedule)
 
 
-    const moveSubject = (fromPosition: PositionItemType, toPosition: PositionItemType) => {
+    const moveItem = (fromPosition: PositionSlotType, toPosition: PositionSlotType) => {
         const updatedGroups = [...groups];
 
         // Получаем предметы из исходной и целевой позиций
-        const fromSubject = updatedGroups[fromPosition.groupIndex].schedule[fromPosition.scheduleIndex].subjects[fromPosition.slotIndex];
-        const toSubject = updatedGroups[toPosition.groupIndex].schedule[toPosition.scheduleIndex].subjects[toPosition.slotIndex];
+        const fromItem = updatedGroups[fromPosition.groupSlot].slots[fromPosition.daySlot].slots[fromPosition.timeSlot!];
+        const toItem = updatedGroups[toPosition.groupSlot].slots[toPosition.daySlot].slots[toPosition.timeSlot!];
 
-        // Перемещаем предметы
-        updatedGroups[fromPosition.groupIndex].schedule[fromPosition.scheduleIndex].subjects[fromPosition.slotIndex] = toSubject;
-        updatedGroups[toPosition.groupIndex].schedule[toPosition.scheduleIndex].subjects[toPosition.slotIndex] = fromSubject;
+        // Перемещаем сущности
+        updatedGroups[fromPosition.groupSlot].slots[fromPosition.daySlot].slots[fromPosition.timeSlot!] = toItem;
+        updatedGroups[toPosition.groupSlot].slots[toPosition.daySlot].slots[toPosition.timeSlot!] = fromItem;
 
         // Обновляем состояние
         setGroups(updatedGroups);
@@ -50,17 +50,23 @@ const TimetableCreate: React.FunctionComponent<TimetableCreateProps> = ({ data }
             "cabinet": "Место"
         }
 
-        const slot = updatedGroups[itemPosition.groupIndex].schedule[itemPosition.scheduleIndex].subjects[itemPosition.slotIndex]
+        const item = updatedGroups[itemPosition.groupSlot].slots[itemPosition.daySlot].slots[itemPosition.timeSlot!]
         
         switch (action) {
             case 'create':
-                if (slot) {
-                    slot.data = itemData
+                if (item) {
+                    item.data = itemData
                 }
                 break;
             case 'delete':
-                if (slot) {
-                    slot.data = null
+                if (item && item.data) {
+                    item.data = null
+                }
+                break;
+            
+            case 'edit':
+                if (item && item.data) {
+                    item.data!.title = 'test'
                 }
                 break;
 
@@ -74,11 +80,6 @@ const TimetableCreate: React.FunctionComponent<TimetableCreateProps> = ({ data }
 
 
     React.useEffect(() => {
-        manageItemContent({
-            groupIndex: 0,
-            scheduleIndex: 0,
-            slotIndex: 0,
-        }, 'create')
     }, [])
 
 
@@ -88,18 +89,18 @@ const TimetableCreate: React.FunctionComponent<TimetableCreateProps> = ({ data }
                 <div className="timetable">
                     {
                         schedule.map((scheduleItem: ScheduleType, scheduleIndex: number) => (
-                            <div className="timetable__day" key={scheduleIndex}>
+                            <div className="timetable__day" key={`day-${scheduleIndex}`}>
                                 <div className="timetable__row --system">
-                                    <span className="day">{scheduleItem.weekday}</span>
+                                    <span className="day">{scheduleItem.title}</span>
                                 </div>
                                 <div className="timetable__row --system">
-                                    <div className="timetable__items --times">
+                                    <div className="timetable__slots --times">
                                         {
-                                            scheduleItem.slots.map((slotItem: SlotType, slotIndex: number) => (
-                                                <div className="item --times" key={slotIndex}>
-                                                    <span className="time">{slotItem.start}</span>
-                                                    <span className="time">-</span>
-                                                    <span className="time">{slotItem.end}</span>
+                                            scheduleItem.slots.map((timeSlot: TimeSlotType, slotIndex: number) => (
+                                                <div className="time" key={slotIndex}>
+                                                    <span className="time-start">{timeSlot.start}</span>
+                                                    <span className="time-separator">-</span>
+                                                    <span className="time-end">{timeSlot.end}</span>
                                                 </div>
                                             ))
                                         }
@@ -107,7 +108,20 @@ const TimetableCreate: React.FunctionComponent<TimetableCreateProps> = ({ data }
                                 </div>
                                 {
                                     groups.map((groupItem: GroupType, groupIndex: number) => {
-                                        return renderGroupItems({groupItem, scheduleIndex, groupIndex, moveSubject, manageItemContent})
+                                        const slotPosition: PositionSlotType = {
+                                            groupSlot: groupIndex,
+                                            daySlot: scheduleIndex,
+                                            timeSlot: null,
+                                        }
+
+                                        return renderSlots({
+                                            slotPosition,
+
+                                            groupItem,
+
+                                            moveItem,
+                                            manageItemContent
+                                        })
                                     })
                                 }
                             </div>

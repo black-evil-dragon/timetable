@@ -7,7 +7,9 @@ import '@styles/app.scss'
 function App() {
 	return (
 		<>
-			<Routing />
+			<React.StrictMode>
+				<Routing />
+			</React.StrictMode>
 		</>
 	);
 }

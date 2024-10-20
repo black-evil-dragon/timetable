@@ -1,0 +1,121 @@
+.context-menu {
+    $_: &;
+    $border-radius: 8px;
+
+
+    position: absolute;
+    z-index: 1000;
+    background: #fff;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.08);
+    border-radius: $border-radius;
+
+    &__item {
+        position: relative;
+    
+        &.--action:hover #{$_}__submenu,
+        #{$_}__submenu:hover {
+            opacity: 1;
+            visibility: visible;
+            transition: opacity 0.3s ease,
+            visibility 0.3s ease;
+        }
+
+        &.--action {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            padding: .75rem .8rem;
+
+            &:hover {
+                cursor: pointer;
+                background-color: beige;
+            }
+        }
+
+        &.--group {
+            list-style: none;
+        }
+    }
+
+    &__submenu {
+        // display: none;
+
+        position: absolute;
+        top: 0;
+        left: 100%;
+
+        background: #fff;
+        border-radius: $border-radius;
+        box-shadow: 0 5px 10px rgba(0, 0, 0, 0.08);
+
+        white-space: nowrap;
+        z-index: 1000;
+
+        opacity: 0;
+        visibility: hidden;
+    }
+
+    &__separator {
+        margin: 0 .8rem;
+        border-top: 1px solid #6d7379;
+    }
+
+    &__button {
+        display: flex;
+        width: 100%;
+
+        background: none;
+        border: none;
+        outline: none;
+        color: #6d7379;
+
+        user-select: none;
+
+        margin-right: 15px;
+
+        &--icon {
+            fill: #6d7379;
+            min-width: 1rem;
+            min-height: 1rem;
+            margin-right: 10px;
+        }
+    }
+
+
+    // Fix borders
+    // :has это конечно круто, но на всякий стоит обойти этот замечательный метод, эх
+    // &__item:not(:has(#{$_}__submenu))
+    &__item {
+        &:first-child {
+            #{$_}__item.--action:first-child {
+                border-top-left-radius: $border-radius;
+                border-top-right-radius: $border-radius;
+            }
+        }
+
+        &:last-child {
+            #{$_}__item.--action:last-child {
+                border-bottom-left-radius: $border-radius;
+                border-bottom-right-radius: $border-radius;
+            }
+        }
+
+        #{$_}__submenu #{$_}__item.--submenu-item {
+            #{$_}__item.--action {
+                &:first-child {
+                    border-top-left-radius: $border-radius;
+                    border-top-right-radius: $border-radius;
+                }
+
+                &:last-child {
+                    border-bottom-left-radius: $border-radius;
+                    border-bottom-right-radius: $border-radius;
+                }
+
+                border-radius: 0;
+            }
+        }
+
+    }
+}

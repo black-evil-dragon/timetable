@@ -1,18 +1,18 @@
 import { useDrag } from "react-dnd";
-import { PositionItemType } from "../../shared/types/types";
 
+import { PositionSlotType } from "@shared/types";
 
-interface SubjectProps {
-    id: number,
+interface ItemProps {
+    id: number | null,
     data: {
         title?: string,
         teacher?: string,
         cabinet?: string,
     },
-    itemPosition?: PositionItemType
+    slotPosition?: PositionSlotType
 }
 
-const Subject: React.FunctionComponent<SubjectProps> = (props = {
+const Item: React.FunctionComponent<ItemProps> = (props = {
     id: 0,
     data: {
         title: '',
@@ -22,10 +22,10 @@ const Subject: React.FunctionComponent<SubjectProps> = (props = {
 }) => {
 
     const [{ isDragging }, drag] = useDrag(() => ({
-        type: 'subject',
+        type: 'item',
         item: { 
             slotIndex: props.id,
-            itemPosition: props.itemPosition,
+            slotPosition: props.slotPosition,
         },
         collect: (monitor) => ({
             isDragging: !!monitor.isDragging(),
@@ -34,16 +34,16 @@ const Subject: React.FunctionComponent<SubjectProps> = (props = {
 
 
     return ( 
-        <div className="subject" data-subject-id={props.id} ref={drag} style={{ opacity: isDragging ? 0.5 : 1 }}>
-            <div className="subject__title">
+        <div className="item" ref={drag} style={{ opacity: isDragging ? 0.5 : 1 }}>
+            <div className="item__title">
                 {props.data.title}
             </div>
-            <div className="subject__content">
-                <div className="subject__teacher --content-item">
+            <div className="item__content">
+                <div className="item__teacher --content-item">
                     {props.data.teacher}
                 </div>
 
-                <div className="subject__cabinet --content-item">
+                <div className="item__cabinet --content-item">
                     {props.data.cabinet}
                 </div>
             </div>
@@ -51,4 +51,4 @@ const Subject: React.FunctionComponent<SubjectProps> = (props = {
     );
 }
 
-export default Subject;
+export default Item;

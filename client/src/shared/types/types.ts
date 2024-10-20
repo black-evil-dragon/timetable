@@ -1,63 +1,62 @@
+// {
+//     "id": 0,
+//     "slot": 0,
+//     "data": {
+//         "hasSubGroup": false,
+//         "subGroup": 0,
+//         "title": "Дисциплина-Название 1",
+//         "teacher": "Доц. Преподаватель-Имя",
+//         "cabinet": "100 к.4"
+//     }
+// },
+// {
+//     "id": 1,
+//     "slot": 2,
+//     "data": {
+//         "hasSubGroup": false,
+//         "subGroup": 0,
+//         "title": "Дисциплина-Название 2",
+//         "teacher": "Доц. Преподаватель-Имя",
+//         "cabinet": "100 к.4"
+//     }
+// },
+// {
+//     "id": 2,
+//     "slot": 3,
+//     "data": {
+//         "hasSubGroup": false,
+//         "subGroup": 0,
+//         "title": "Дисциплина-Название 3",
+//         "teacher": "Доц. Преподаватель-Имя",
+//         "cabinet": "100 к.4"
+//     }
+// },
 export const data = {
     "groups": [
         {
             "title": "4Б09 РПС-21",
             "slot": 0,
-            "schedule": [
+            "slots": [
                 {
                     "id": 0,
                     "slot": 0,
                     "weekdayID": 0,
-                    "weekday": "Понедельник",
-                    "subjects": [
-                        // {
-                        //     "id": 0,
-                        //     "slot": 0,
-                        //     "data": {
-                        //         "hasSubGroup": false,
-                        //         "subGroup": 0,
-                        //         "title": "Дисциплина-Название 1",
-                        //         "teacher": "Доц. Преподаватель-Имя",
-                        //         "cabinet": "100 к.4"
-                        //     }
-                        // },
-                        // {
-                        //     "id": 1,
-                        //     "slot": 2,
-                        //     "data": {
-                        //         "hasSubGroup": false,
-                        //         "subGroup": 0,
-                        //         "title": "Дисциплина-Название 2",
-                        //         "teacher": "Доц. Преподаватель-Имя",
-                        //         "cabinet": "100 к.4"
-                        //     }
-                        // },
-                        // {
-                        //     "id": 2,
-                        //     "slot": 3,
-                        //     "data": {
-                        //         "hasSubGroup": false,
-                        //         "subGroup": 0,
-                        //         "title": "Дисциплина-Название 3",
-                        //         "teacher": "Доц. Преподаватель-Имя",
-                        //         "cabinet": "100 к.4"
-                        //     }
-                        // },
-                    ]
+                    "weekdayTitle": "Понедельник",
+                    "slots": []
                 }
             ]
         },
         {
             "title": "4Б09 ПИБ-21",
             "slot": 1,
-            "schedule": [],
+            "slots": [],
         }
     ],
 
     "schedule": [
         {
             "id": 0,
-            "weekday": "Понедельник",
+            "title": "Понедельник",
             "slot": 0,
             "slots": [
                 {
@@ -84,7 +83,7 @@ export const data = {
         },
         {
             "id": 1,
-            "weekday": "Вторник",
+            "title": "Вторник",
             "slot": 1,
             "slots": [
                 {
@@ -111,7 +110,7 @@ export const data = {
         },
         {
             "id": 2,
-            "weekday": "Среда",
+            "title": "Среда",
             "slot": 2,
             "slots": [
                 {
@@ -138,7 +137,7 @@ export const data = {
         },
         {
             "id": 3,
-            "weekday": "Четверг",
+            "title": "Четверг",
             "slot": 3,
             "slots": [
                 {
@@ -167,29 +166,29 @@ export const data = {
 }
 
 // 
-export type manageItemContentType = (itemPosition: PositionItemType, action: string) => void
+export type manageItemContentType = (itemPosition: PositionSlotType, action: string) => void
 
 export type GroupType = {
     title: string;
     slot: number;
-    schedule: ScheduleItemType[];
+    slots: DaySlotType[];
 }
 
-export type ScheduleItemType = {
+export type DaySlotType = {
     id: number;
-    weekday: string;
+    weekdayTitle: string;
     weekdayID: number;
     slot: number;
-    subjects: SubjectType[];
+    slots: ItemSlotType[];
 }
 
-export type SubjectType = {
+export type ItemSlotType = {
     id: number | string;
     slot: number;
-    data: SubjectDataType | null;
+    data: ItemDataType | null;
 }
 
-export type SubjectDataType = {
+export type ItemDataType = {
     title: string;
 
     hasSubGroup: boolean;
@@ -202,20 +201,20 @@ export type SubjectDataType = {
 
 export type ScheduleType = {
     id: number;
-    weekday: string;
+    title: string;
     slot: number;
-    slots: SlotType[];
+    slots: TimeSlotType[];
 }
-export type SlotType = {
+export type TimeSlotType = {
     slot: number;
     start: string;
     end: string;
 }
 
-export type PositionItemType = {
-    groupIndex: number,
-    scheduleIndex: number,
-    slotIndex: number,
+export type PositionSlotType = {
+    groupSlot: number,
+    daySlot: number,
+    timeSlot: number | null,
 }
 
 
