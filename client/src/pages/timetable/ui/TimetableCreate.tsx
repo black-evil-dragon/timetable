@@ -1,4 +1,4 @@
-import React, { act } from "react";
+import React from "react";
 import { DndProvider } from 'react-dnd'
 import { HTML5Backend } from 'react-dnd-html5-backend'
 
@@ -8,7 +8,11 @@ import { renderSlots } from "../model/renderSlots";
 
 
 // Types
-import { GroupType, manageItemContentType, ScheduleType, PositionSlotType, TimeSlotType } from "@shared/types";
+import { GroupType, manageItemContentType, ScheduleType, PositionSlotType, TimeSlotType, Actions } from "@shared/types";
+import { EditPanel } from "@features/EditPanel";
+import { ContextMenu, ContextMenuProps } from "@entities/ContextMenu";
+import { contextMenuActions } from "@shared/manager";
+import { ContextMenuManager } from "..";
 
 
 interface TimetableCreateProps {
@@ -23,6 +27,8 @@ const TimetableCreate: React.FunctionComponent<TimetableCreateProps> = ({ data }
 
     const [groups, setGroups] = React.useState(data.groups)
     const [schedule, setSchedule] = React.useState(data.schedule)
+    const [editItem, setEditItem] = React.useState<null | { itemPosition: PositionSlotType; editableFields: any[] }>(null);
+    const [contextMenuState, setContextMenuState] = React.useState<null | ContextMenuProps>(null)
 
 
     const moveItem = (fromPosition: PositionSlotType, toPosition: PositionSlotType) => {
@@ -39,6 +45,7 @@ const TimetableCreate: React.FunctionComponent<TimetableCreateProps> = ({ data }
         // Обновляем состояние
         setGroups(updatedGroups);
     };
+
 
     const manageItemContent: manageItemContentType = (itemPosition, action) => {
         const updatedGroups = [...groups];
@@ -61,12 +68,21 @@ const TimetableCreate: React.FunctionComponent<TimetableCreateProps> = ({ data }
             case 'delete':
                 if (item && item.data) {
                     item.data = null
+                    
+                    if (editItem) setEditItem(null)
                 }
                 break;
             
             case 'edit':
                 if (item && item.data) {
-                    item.data!.title = 'test'
+                    setEditItem({
+                        itemPosition,
+                        editableFields: [
+                            { name: "title", value: item.data.title, placeholder: "Название" },
+                            { name: "cabinet", value: item.data.cabinet, placeholder: "Место" },
+                            { name: "teacher", value: item.data.teacher, placeholder: "Организатор" },
+                        ],
+                    });
                 }
                 break;
 
@@ -75,7 +91,41 @@ const TimetableCreate: React.FunctionComponent<TimetableCreateProps> = ({ data }
                 
         }
 
-        setGroups(updatedGroups)
+        updatedGroups !== groups && setGroups(updatedGroups)
+    }
+
+
+    const handleEditSubmit = (updatedFields: any[]) => {
+        if (editItem) {
+            const updatedGroups = [...groups];
+            const { itemPosition } = editItem;
+            const item = updatedGroups[itemPosition.groupSlot].slots[itemPosition.daySlot].slots[itemPosition.timeSlot!];
+
+            // Обновить данные элемента
+            updatedFields.forEach((field) => {
+                if (item && item.data) {
+                    item.data[field.name] = field.value;
+                }
+            });
+
+            setGroups(updatedGroups);
+            setEditItem(null); // Закрыть EditPanel после сохранения
+        }
+    };
+
+
+
+    const onContextMenu = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+        event.preventDefault()
+        
+        let ContextMenuState = {
+            ...ContextMenuManager.getState(event),
+            onClose() {
+                setContextMenuState(null)
+            }
+        }
+
+        setContextMenuState(ContextMenuState)
     }
 
 
@@ -97,7 +147,7 @@ const TimetableCreate: React.FunctionComponent<TimetableCreateProps> = ({ data }
                                     <div className="timetable__slots --times">
                                         {
                                             scheduleItem.slots.map((timeSlot: TimeSlotType, slotIndex: number) => (
-                                                <div className="time" key={slotIndex}>
+                                                <div className="time" key={slotIndex} onContextMenu={onContextMenu} data-context-menu="time-menu-edit">
                                                     <span className="time-start">{timeSlot.start}</span>
                                                     <span className="time-separator">-</span>
                                                     <span className="time-end">{timeSlot.end}</span>
@@ -128,6 +178,21 @@ const TimetableCreate: React.FunctionComponent<TimetableCreateProps> = ({ data }
 
                         ))
                     }
+
+                    {/* Context Menu-s */}
+                    {contextMenuState && (
+                        <ContextMenu {...contextMenuState} />
+                    )}
+                    {/* -=- */}
+
+                    <div className="timetable-test">
+                        {editItem && (
+                            <EditPanel
+                                editableFields={editItem.editableFields}
+                                onSave={handleEditSubmit}
+                            />
+                        )}
+                    </div>
                 </div>
             </DndProvider >
         </>

@@ -162,6 +162,33 @@ export const data = {
                 }
             ]
         },
+        {
+            "id": 4,
+            "title": "Пятница",
+            "slot": 4,
+            "slots": [
+                {
+                    "slot": 0,
+                    "start": "08:00",
+                    "end": "09:30"
+                },
+                {
+                    "slot": 1,
+                    "start": "09:40",
+                    "end": "11:10"
+                },
+                {
+                    "slot": 2,
+                    "start": "11:40",
+                    "end": "13:10"
+                },
+                {
+                    "slot": 3,
+                    "start": "13:20",
+                    "end": "14:50"
+                }
+            ]
+        },
     ]
 }
 
@@ -189,6 +216,8 @@ export type ItemSlotType = {
 }
 
 export type ItemDataType = {
+    [key: string]: any;
+
     title: string;
 
     hasSubGroup: boolean;

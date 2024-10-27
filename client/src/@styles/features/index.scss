@@ -25,7 +25,7 @@
             justify-content: center;
             align-items: center;
 
-            padding: .75rem .8rem;
+            
 
             &:hover {
                 cursor: pointer;
@@ -73,6 +73,7 @@
         user-select: none;
 
         margin-right: 15px;
+        padding: .75rem .8rem;
 
         &--icon {
             fill: #6d7379;

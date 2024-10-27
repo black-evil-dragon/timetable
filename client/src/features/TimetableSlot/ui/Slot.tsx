@@ -7,7 +7,7 @@ import { Item } from '@entities/TimetableItem';
 
 import { manageItemContentType, PositionSlotType, ItemSlotType } from '@shared/types';
 
-import { contextMenuActions } from '@shared/index';
+import { contextMenuActions } from '@shared/manager';
 import { Actions } from '@shared/types';
 
 
@@ -21,10 +21,13 @@ interface SlotProps {
     manageItemContent: manageItemContentType,
 }
 
+
+
 const Slot: React.FC<SlotProps> = ({
     slotPosition, itemSlot,
     moveItem, manageItemContent
 }) => {
+    
     // Drop events
     const [{ isOver }, drop] = useDrop({
         accept: 'item',
@@ -100,8 +103,7 @@ const Slot: React.FC<SlotProps> = ({
             </div>
             {isContextMenuVisible && (
                 <ContextMenu
-                    top={contextPosition.y}
-                    left={contextPosition.x}
+                    position={contextPosition}
                     onAction={onAction} 
                     onClose={() => setContextMenuVisible(false)}
                     actions={availableActions}

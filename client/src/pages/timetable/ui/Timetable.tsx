@@ -3,8 +3,8 @@ import { useParams } from "react-router-dom";
 
 // UI
 import NoPage from "@pages/404";
-import TimetableCreate from "./ui/TimetableCreate";
-import TimetableView from "./ui/TimetableView";
+import TimetableCreate from "./TimetableCreate";
+import TimetableView from "./TimetableView";
 
 // Shared
 import { data, DaySlotType, GroupType, ItemSlotType, ScheduleType, TimeSlotType } from "@shared/types";

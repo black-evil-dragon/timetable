@@ -1,12 +1,12 @@
 import React from 'react';
-import { HashRouter, Routes, Route, BrowserRouter } from "react-router-dom";
+import { Routes, Route, BrowserRouter } from "react-router-dom";
 
 import Layout from '@app/layout';
 
 import NoPage from '@pages/404';
 import HomePage from '@pages/home';
-import LoginPage from '@pages/admin/loginPage';
-import Timetable from '@pages/timetable';
+
+import { Timetable } from '@pages/timetable';
 
 
 function Routing() {

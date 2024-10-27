@@ -4,17 +4,19 @@ import React from 'react';
 
 
 type ButtonProps = {
-    type: "submit" | "reset" | "button",
+    type?: "submit" | "reset" | "button",
     className?: string,
-    text?: string,
+
+    children?: React.ReactNode;
 
     callback: any,
 }
 
 const Button: React.FunctionComponent<ButtonProps> = ({
-    type = 'button',
+    type='button',
     className='',
-    text,
+
+    children,
 
     callback,
 }) => {
@@ -25,7 +27,7 @@ const Button: React.FunctionComponent<ButtonProps> = ({
                 type={type}
                 onClick={event => callback(event)}
             >
-                {text}
+                {children}
             </button>
         </>
     );

@@ -1,0 +1,1 @@
+export {default as EditPanel} from './ui/EditPanel'

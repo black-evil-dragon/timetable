@@ -1,6 +1,15 @@
 @import '../variables.scss';
 
 .timetable {
+    position: relative;
+
+    display: flex;
+
+    &-test {
+        top: 0;
+        right: 0;
+        position: absolute;
+    }
 
     $shell-width: 18rem;
     $shell-height: 8rem;

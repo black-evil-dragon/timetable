@@ -1,24 +1,15 @@
 import React from "react";
 
-import { renderContextMenu } from "..";
 
-import { Action, Actions } from "@shared/types/context-menu";
-
+import { Action } from "@shared/types/context-menu";
 import '@styles/features/index.scss'
 
-interface ContextMenuProps {
-    top: number;
-    left: number;
-    children?: React.ReactNode;
+import { ContextMenuProps, renderContextMenu } from "..";
 
-    actions: Actions
 
-    onAction: (action: string) => void;
-    onClose: () => void;
-}
 
 const ContextMenu: React.FunctionComponent<ContextMenuProps> = ({
-    top, left, children,
+    position, children,
     actions,
     onAction, onClose
 }) => {
@@ -50,8 +41,8 @@ const ContextMenu: React.FunctionComponent<ContextMenuProps> = ({
             ref={menuRef}
             className="context-menu"
             style={{
-                top: `${top}px`,
-                left: `${left}px`,
+                top: `${position.y}px`,
+                left: `${position.x}px`,
             }}
         >
             {renderContextMenu({ actions, onClickHandler})}
