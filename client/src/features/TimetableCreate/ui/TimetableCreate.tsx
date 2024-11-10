@@ -14,6 +14,7 @@ import { updateItemContent, manageTimeContent, updateTimeContent } from "../mode
 import { EditableField, EditPanel } from "@features/EditPanel";
 import { ContextMenu } from "@shared/ContextMenu";
 import { useContextMenu } from "@hooks/useContextMenu";
+import { PositionSlotType } from "@shared/types";
 
 
 
@@ -44,10 +45,10 @@ const TimetableCreate: React.FunctionComponent<TimetableCreateProps> = () => {
      * можно разделять для каждого объекта
      * @param event React.MouseEvent<HTMLDivElement, MouseEvent>
      */
-    const handleCMSTime = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    const handleCMSTime = (event: React.MouseEvent<HTMLDivElement, MouseEvent>, position: PositionSlotType) => {
         ContextMenuManager.set(event, { onAction(action) { 
             dispatch(manageTimeContent({
-                position: {timetableSlot: 0, timeSlot: 0},
+                position: position,
                 actionType: action 
             }));
         }})
@@ -87,7 +88,7 @@ const TimetableCreate: React.FunctionComponent<TimetableCreateProps> = () => {
                                 <div className="timetable-interval">
                                     {timetable.intervals.map((interval, intervalIndex) => (
                                         <div className="timetable-time" key={`interval-${intervalIndex}`}
-                                            onContextMenu={handleCMSTime}
+                                            onContextMenu={event => handleCMSTime(event, {timetableSlot: timetableIndex, timeSlot: intervalIndex})}
                                             data-context-menu="time-menu-edit"
                                             data-time-index={intervalIndex}
                                         >
