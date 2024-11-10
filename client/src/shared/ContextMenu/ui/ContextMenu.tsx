@@ -23,7 +23,7 @@ const ContextMenu: React.FunctionComponent<ContextMenuProps> = ({
     };
 
     const onClickHandler = (action: Action) => {
-        action.type && onAction(action.type);
+        (action.type && onAction) && onAction(action.type);
         onClose()
     };
 

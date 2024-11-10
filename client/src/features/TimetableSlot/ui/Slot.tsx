@@ -1,14 +1,20 @@
 import React from 'react';
 import { useDrop } from 'react-dnd';
 
-import { ContextMenu } from '@entities/ContextMenu';
+import { useContextMenu } from '@hooks/useContextMenu';
+
+import { ContextMenu } from '@shared/ContextMenu';
 import { Item } from '@entities/TimetableItem';
 
+// Types
+import type { PositionSlotType, } from '@shared/types';
+import type { ItemSlotType } from '@pages/timetable';
 
-import { manageItemContentType, PositionSlotType, ItemSlotType } from '@shared/types';
 
-import { contextMenuActions } from '@shared/manager';
-import { Actions } from '@shared/types';
+// Model
+import { ActionsDataSet } from '..';
+import { manageItemContent, moveItem } from '@features/TimetableCreate/model/slice';
+import { useAppDispatch } from '@app/Store/hooks';
 
 
 
@@ -16,17 +22,22 @@ interface SlotProps {
     slotPosition: PositionSlotType;
 
     itemSlot?: ItemSlotType;
-
-    moveItem: (fromPosition: PositionSlotType, toPosition: PositionSlotType) => void;
-    manageItemContent: manageItemContentType,
 }
 
 
 
 const Slot: React.FC<SlotProps> = ({
     slotPosition, itemSlot,
-    moveItem, manageItemContent
 }) => {
+
+    const dispatch = useAppDispatch();
+
+    const handleMoveItem = (fromPosition: PositionSlotType, toPosition: PositionSlotType) => {
+        dispatch(moveItem({
+            fromPosition,
+            toPosition
+        }))
+    }
     
     // Drop events
     const [{ isOver }, drop] = useDrop({
@@ -34,7 +45,7 @@ const Slot: React.FC<SlotProps> = ({
         drop: (item: {
             slotPosition: PositionSlotType
         }) => {
-            moveItem(
+            handleMoveItem(
                 item.slotPosition, // from position
                 slotPosition       // to position
             )
@@ -45,70 +56,37 @@ const Slot: React.FC<SlotProps> = ({
     });
 
 
-    // States
-    const [contextPosition, setContextPosition] = React.useState({x: 0, y: 0})
-    const [isContextMenuVisible, setContextMenuVisible] = React.useState(false)
-    const [availableActions, setActions] = React.useState<Actions>(null)
-
+    const { contextMenuState, ContextMenuManager } = useContextMenu(ActionsDataSet)
+    
 
     // Logic
-    const onAction = (action: string) => {
-        setContextMenuVisible(false)
-        manageItemContent(slotPosition, action)
-    };
-
-    const onContextMenu = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-        event.preventDefault()
-        
-        setContextPosition({
-            x: event.pageX,
-            y: event.pageY,
-        })
-        setContextMenuVisible(true)
+    const handleContextMenu = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+        ContextMenuManager.set(event, { onAction(action) {
+            dispatch(manageItemContent({
+                position: slotPosition,
+                actionType: action
+            }))
+        }})
     }
-
-    const getActions = React.useCallback(() => {
-        if (itemSlot && itemSlot.data) {
-            setActions([
-                contextMenuActions.edit,
-                contextMenuActions.delete,
-            ]);
-        } else {
-            setActions([
-                contextMenuActions.create,
-            ]);
-        }
-    }, [itemSlot?.data]);
-
-
-    // React useEffect
-    React.useEffect(() => {
-        getActions()
-
-    }, [itemSlot?.data]);
     
 
     return (
         <>
             <div
                 ref={drop}
-                className={`slot ${isOver ? '--hovered' : ''}`}
-                onContextMenu={onContextMenu}
-            >
-                {itemSlot && itemSlot.data ? (
-                    <Item id={slotPosition.timeSlot} data={itemSlot.data} slotPosition={slotPosition} />
-                ) : (
-                    <div className="item --null"></div>
-                )}
-            </div>
-            {isContextMenuVisible && (
-                <ContextMenu
-                    position={contextPosition}
-                    onAction={onAction} 
-                    onClose={() => setContextMenuVisible(false)}
-                    actions={availableActions}
-                />
-            )}
+                className={`timetable-slot ${isOver ? '--hovered' : ''}`}
+
+                onContextMenu={handleContextMenu}
+
+                data-context-menu={
+                    (itemSlot && itemSlot.data) ? `slot-item` : 'slot-empty'
+                }
+
+            >{(itemSlot && itemSlot.data) && (
+                <Item id={slotPosition.timeSlot!} data={itemSlot.data} slotPosition={slotPosition} />
+            )}</div>
+
+            {contextMenuState && <ContextMenu {...contextMenuState} />}
         </>
     );
 };

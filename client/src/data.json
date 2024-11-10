@@ -1,0 +1,170 @@
+[
+  {
+    "id": "dqoy2xi",
+    "title": "4Б09 РПС-21",
+    "slot": 0,
+    "days": [
+      {
+        "id": "h9mhevj",
+        "title": "Понедельник",
+        "slot": 0,
+        "slots": [
+          {
+            "id": "a645hi1",
+            "slot": 0,
+            "data": null
+          },
+          {
+            "id": "a1vxdxc",
+            "slot": 1,
+            "data": null
+          },
+          {
+            "id": "bnqb077",
+            "slot": 2,
+            "data": null
+          },
+          {
+            "id": "4r2aaev",
+            "slot": 3,
+            "data": null
+          }
+        ]
+      },
+      {
+        "id": "6ovc6sy",
+        "title": "Вторник",
+        "slot": 0,
+        "slots": [
+          {
+            "id": "ptgydym",
+            "slot": 0,
+            "data": null
+          },
+          {
+            "id": "dogjfnq",
+            "slot": 1,
+            "data": null
+          },
+          {
+            "id": "meofehh",
+            "slot": 2,
+            "data": null
+          },
+          {
+            "id": "jj86m9v",
+            "slot": 3,
+            "data": null
+          }
+        ]
+      },
+      {
+        "id": "61479k1",
+        "title": "Среда",
+        "slot": 0,
+        "slots": [
+          {
+            "id": "e47urkk",
+            "slot": 0,
+            "data": null
+          },
+          {
+            "id": "lrzh2bp",
+            "slot": 1,
+            "data": null
+          },
+          {
+            "id": "16efdd5",
+            "slot": 2,
+            "data": null
+          },
+          {
+            "id": "trjzz2b",
+            "slot": 3,
+            "data": null
+          }
+        ]
+      },
+      {
+        "id": "t9vng9l",
+        "title": "Четверг",
+        "slot": 0,
+        "slots": [
+          {
+            "id": "dzt6ktg",
+            "slot": 0,
+            "data": null
+          },
+          {
+            "id": "78s63gg",
+            "slot": 1,
+            "data": null
+          },
+          {
+            "id": "h4ez2cn",
+            "slot": 2,
+            "data": null
+          },
+          {
+            "id": "ls49xjg",
+            "slot": 3,
+            "data": null
+          }
+        ]
+      },
+      {
+        "id": "dxp3ny9",
+        "title": "Пятница",
+        "slot": 0,
+        "slots": [
+          {
+            "id": "hj58hk9",
+            "slot": 0,
+            "data": null
+          },
+          {
+            "id": "zzaw77z",
+            "slot": 1,
+            "data": null
+          },
+          {
+            "id": "hvo5vaz",
+            "slot": 2,
+            "data": null
+          },
+          {
+            "id": "okatn62",
+            "slot": 3,
+            "data": null
+          }
+        ]
+      }
+    ],
+    "intervals": [
+      {
+        "id": "p5rm8tl",
+        "slot": 0,
+        "start": "08:00",
+        "end": "09:30"
+      },
+      {
+        "id": "yvw307c",
+        "slot": 1,
+        "start": "09:40",
+        "end": "11:10"
+      },
+      {
+        "id": "gw1r1i2",
+        "slot": 2,
+        "start": "11:40",
+        "end": "13:10"
+      },
+      {
+        "id": "uah0ud4",
+        "slot": 3,
+        "start": "13:20",
+        "end": "14:50"
+      }
+    ]
+  }
+]

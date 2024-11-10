@@ -1,0 +1,218 @@
+@import '@styles/variables.scss';
+
+.timetable {
+    $component: &;
+    // use: #{$component}...
+
+    $shell-width: 190px;
+    $shell-height: 100px;
+
+    &-unit {
+
+        display: flex;
+        gap: .5rem;
+
+        &__title {
+            padding: 1rem;
+        }
+
+        #{$component}-interval {
+
+            display: flex;
+            justify-content: end;
+            flex-direction: column;
+
+            padding: .5rem 1rem;
+
+            #{$component}-time {
+
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                flex-direction: column;
+
+                width: calc($shell-width - 8rem);
+                height: $shell-height;
+
+                // background-color: #dadada;
+                                            
+                &__start {}
+
+                &__separator {}
+
+                &__end {}
+            }
+        }
+
+        #{$component}-week {
+    
+            display: flex;
+            gap: 1rem;
+
+            
+
+            #{$component}-day {
+
+                background-color: #c5c5c5;
+                padding: .5rem 1rem;
+
+                &__title {
+                    text-align: center;
+                    margin-bottom: .5rem;
+                }
+
+                #{$component}-slots {
+                    #{$component}-slot {
+
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        
+                        width: $shell-width;
+                        height: $shell-height;
+
+                        background-color: #dadada;
+
+                        #{$component}-item {
+
+                            display: flex;
+                            justify-content: center;
+                            align-items: center;
+                            flex-direction: column;
+
+                            width: 100%;
+                            height: 100%;
+
+                            background-color: #fff;
+
+                            &__title {}
+
+                            &__content {}
+
+                            &__teacher {}
+
+                            &__cabinet {
+                                text-align: center;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+
+    // position: relative;
+
+    // display: flex;
+
+    // &-test {
+    //     top: 0;
+    //     right: 0;
+    //     position: absolute;
+    // }
+
+    // $shell-width: 18rem;
+    // $shell-height: 8rem;
+
+
+    // &__day {
+    //     display: flex;
+
+    //     padding: 15px 0;
+    // }
+
+    // &__row {
+
+    //     border: 1px solid $theme-color;
+
+
+    //     &.--system {
+    //         flex-grow: 0;
+    //         display: flex;
+    //         justify-content: center;
+    //         align-items: center;
+
+    //         span.day {
+    //             text-orientation: upright;
+    //             writing-mode: vertical-rl;
+
+    //             padding: 15px;
+    //         }
+    //     }
+    // }
+
+    // &__slots {
+    //     display: flex;
+    //     flex-direction: column;
+    //     gap: 10px;
+
+    //     &.--times {
+    //         width: 100%;
+    //         height: 100%;
+    //         justify-content: space-around;
+    //         .time {
+    //             display: flex;
+    //             flex-direction: column;
+    //             justify-content: space-around;
+    //             align-items: center;
+    //         }
+
+    //     }
+
+    //     .slot {
+    //         position: relative;
+
+    //         width: $shell-width;
+    //         height: $shell-height;
+
+    //         margin: 15px;
+
+
+    //         .item {
+    //             width: 100%;
+    //             height: 100%;
+    //             background-color: #fff;
+
+    //             border-radius: 15px;
+
+    //             &.--null {
+    //                 border: 1px solid $theme-color;
+    //                 background-color: initial;
+    //             }
+
+    //             &__title {
+    //                 font-size: 1.25rem;
+
+    //                 text-align: center;
+
+    //                 padding: 15px 0;
+
+    //             }
+
+    //             &__content {
+    //                 display: flex;
+    //                 justify-content: space-around;
+
+    //                 .--content-item {
+    //                     width: calc(100% / 2 - 15px);
+
+    //                     text-align: center;
+    //                 }
+    //             }
+    //         }
+    //     }
+
+
+    //     &.--times {
+    //         .time {
+    //             width: initial;
+    //             height: $shell-height;
+
+    //             border: 1px solid $theme-color;
+    //         }
+    //     }
+    // }
+
+
+}

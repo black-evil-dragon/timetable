@@ -34,16 +34,16 @@ const Item: React.FunctionComponent<ItemProps> = (props = {
 
 
     return ( 
-        <div className="item" ref={drag} style={{ opacity: isDragging ? 0.5 : 1 }}>
-            <div className="item__title">
+        <div className="timetable-item" ref={drag} style={{ opacity: isDragging ? 0.5 : 1 }}>
+            <div className="timetable-item__title">
                 {props.data.title}
             </div>
-            <div className="item__content">
-                <div className="item__teacher --content-item">
+            <div className="timetable-item__content">
+                <div className="timetable-item__teacher --content-item">
                     {props.data.teacher}
                 </div>
 
-                <div className="item__cabinet --content-item">
+                <div className="timetable-item__cabinet --content-item">
                     {props.data.cabinet}
                 </div>
             </div>

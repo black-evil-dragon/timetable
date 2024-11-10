@@ -1,9 +1,10 @@
-import Header from '@app/components/Header';
-import React from 'react';
 import { Outlet } from 'react-router-dom';
 
+import Header from '@app/Components/Header';
 
-function Layout() {
+
+
+export default function Layout() {
     return (
         <>
             {/* App header component */}
@@ -27,6 +28,3 @@ function Layout() {
         </>
     );
 }
-
-
-export default Layout;

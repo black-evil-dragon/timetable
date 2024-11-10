@@ -1,4 +1,6 @@
 export {default as Timetable} from './ui/Timetable'
 
 
-export * as ContextMenuManager from './model/MenuManager'
+export * as ContextMenuManager from './model/actions'
+
+export * from './types'

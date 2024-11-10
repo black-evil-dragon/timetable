@@ -1,19 +1,15 @@
 import React from "react";
 
-import Input from "@shared/ui/Input";
+import { Input } from "@shared/Input";
+import { EditableField } from "..";
 
 
-interface EditableField {
-    name: string;
-    value: string;
-    type?: string;
-    placeholder?: string;
-}
+
 
 interface EditPanelProps {
     editableFields: EditableField[];
 
-    onSave: any;
+    onSave: (arg: EditableField[]) => void;
 }
 
  

@@ -1,11 +1,10 @@
 import React from 'react';
 import { Routes, Route, BrowserRouter } from "react-router-dom";
 
-import Layout from '@app/layout';
+import Layout from '@app/Layout';
 
 import NoPage from '@pages/404';
 import HomePage from '@pages/home';
-
 import { Timetable } from '@pages/timetable';
 
 

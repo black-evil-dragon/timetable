@@ -1,115 +1,127 @@
 import React from "react";
 import { useParams } from "react-router-dom";
 
-// UI
+import { TimetableCreate } from "@features/TimetableCreate";
 import NoPage from "@pages/404";
-import TimetableCreate from "./TimetableCreate";
+
 import TimetableView from "./TimetableView";
 
-// Shared
-import { data, DaySlotType, GroupType, ItemSlotType, ScheduleType, TimeSlotType } from "@shared/types";
+
+import { data } from "@shared/types";
 
 // Styles
-import '@styles/pages/timetable.scss'
+import '../styles/timetable.scss'
 
+
+// Types 
+import type { DaySlotType, ItemSlotType, TimetableType } from "..";
+import { setTimetables } from "@features/TimetableCreate/model/slice";
+import { useAppDispatch } from "@app/Store/hooks";
 
 interface TimetableProps {
 
 }
- 
+
+const week = [
+    {
+        "id": Math.random().toString(36).substring(2, 9),
+        "title": "Понедельник",
+    },
+    {
+        "id": Math.random().toString(36).substring(2, 9),
+        "title": "Вторник",
+    },
+    {
+        "id": Math.random().toString(36).substring(2, 9),
+        "title": "Среда",
+    },
+    {
+        "id": Math.random().toString(36).substring(2, 9),
+        "title": "Четверг",
+    },
+    {
+        "id": Math.random().toString(36).substring(2, 9),
+        "title": "Пятница",
+    },
+]
+
 const Timetable: React.FunctionComponent<TimetableProps> = () => {
     const { page } = useParams();
-    
-    const [groups, setGroups] = React.useState(data.groups)
-    const [schedule, setSchedule] = React.useState(data.schedule)
+
+    const [isLoading, setLoading] = React.useState(true)
+    const dispatch = useAppDispatch();
 
 
-    const prepareData = () => {
-        const updatedGroups = [...groups];
-        const updatedSchedule = [...schedule];
+    const prepareData = (timetables: TimetableType[]): TimetableType[] => {
+        const updatedTimetables = timetables.map((timetable) => {
+            const days: DaySlotType[] = [];
 
-        updatedGroups.forEach((group: GroupType)  => {
-            // Если у группы нет расписания или оно неполное, создаем полное расписание на основе общего расписания
-            if (!group.slots || group.slots.length < updatedSchedule.length) {
-                // Инициализируем расписание, если его нет
-                group.slots = group.slots || [];
+            week.forEach((day) => {
+                const existingDay = timetable.days.find(d => d.title === day.title);
 
-                // Заполняем недостающие дни
-                updatedSchedule.forEach((weekDay: ScheduleType) => {
-                    const existingDay = group.slots.find((daySlot: DaySlotType) => daySlot.weekdayID === weekDay.id);
+                if (existingDay) {
+                    // Добавляем слоты, если их не хватает
+                    const slots: ItemSlotType[] = [];
+                    timetable.intervals.forEach((interval, intervalIndex) => {
+                        const existingSlot = existingDay.slots.find(s => s.slot === intervalIndex);
+                        if (existingSlot) {
+                            slots.push(existingSlot)
+                            return;
+                        }
 
-                    if (!existingDay) {
-                        group.slots.push({
-                            id: weekDay.id,
-                            slot: weekDay.slot,
-                            weekdayID: weekDay.id,
-                            weekdayTitle: weekDay.title,
-                            slots: weekDay.slots.map((timeSlot: TimeSlotType) => ({
-                                id: timeSlot.slot,
-                                slot: timeSlot.slot,
-                                data: null
-                            }))
-                        });
-                    }
-                });
-            }
+                        const slotData: ItemSlotType = {
+                            id: Math.random().toString(36).substring(2, 9),
+                            slot: intervalIndex,
+                            data: null,
+                        };
+                        slots.push(slotData);
+                    });
+                    days.push({ ...existingDay, slots })
 
-            // Проходим по дням расписания группы
-            group.slots.forEach((daySlot: DaySlotType, dayIndex: number) => {
-                const timeSlots = updatedSchedule[dayIndex].slots;
+                }
+                else {
 
-                // Если у дня нет сущностей, создаем пустые слоты на основе общего расписания
-                if (!daySlot.slots || daySlot.slots.length === 0) {
-                    daySlot.slots = timeSlots.map((timeSlot: TimeSlotType) => ({
-                        id: timeSlot.slot,
-                        slot: timeSlot.slot,
-                        data: null
+                    const slots: ItemSlotType[] = timetable.intervals.map((interval, intervalIndex) => ({
+                        id: Math.random().toString(36).substring(2, 9),
+                        slot: intervalIndex,
+                        data: null,
                     }));
+
+                    const dayData: DaySlotType = {
+                        id: day.id,
+                        title: day.title,
+                        slot: timetable.slot, // Используем slot из timetable
+                        slots,
+                    };
+
+                    days.push(dayData)
                 }
 
-                // Заполняем промежутки между предметами
-                const filledSlots: ItemSlotType[] = [];
-
-                timeSlots.forEach((timeSlot: TimeSlotType) => {
-                    const existingItem = daySlot.slots.find((itemSlot: ItemSlotType) => itemSlot.slot === timeSlot.slot);
-                    
-                    if (existingItem) {
-                        filledSlots.push(existingItem);
-                    } else {
-                        // Добавляем пустой слот, если предмет отсутствует
-                        filledSlots.push({
-                            id: timeSlot.slot,
-                            slot: timeSlot.slot,
-                            data: null
-                        });
-                    }
-                });
-
-                // Обновляем расписание группы на этот день с заполненными слотами
-                daySlot.slots = filledSlots;
             });
+
+            return { ...timetable, days };
         });
 
-        // Обновляем состояние
-        setGroups(updatedGroups);
-        setSchedule(updatedSchedule);
+        return updatedTimetables;
     };
 
+
     React.useEffect(() => {
-        prepareData()
+        dispatch(setTimetables(prepareData(data.timetables)));
+        setLoading(false)
     }, [])
     
     return ( 
         <>
             {
-                page === 'create' ?
-                    <TimetableCreate data={{
-                        groups: groups,
-                        schedule: schedule,
-                    }} />
-                : page === 'view' ? 
-                    <TimetableView /> 
-                : <NoPage />
+                !isLoading ? (
+                    page === 'create' ?
+                        <TimetableCreate />
+                        : page === 'view' ?
+                            <TimetableView />
+                            : <NoPage />
+                ) :
+                (<>Загрузка</>)
             }
         </>
      );
