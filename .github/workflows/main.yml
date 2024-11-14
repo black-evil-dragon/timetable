@@ -56,7 +56,8 @@ jobs:
         run: docker-compose -f docker-compose.prod.yml down
 
       # Deploy to Server
-      # - name: Deploy to Server
-      #   if: github.ref == 'refs/heads/main' && success()
-      #   run: |
+      - name: Deploy
+        if: github.ref == 'refs/heads/main' && success()
+        run: |
+          echo success!
       #     ssh user@server.com 'cd /path/to/app && docker-compose pull && docker-compose up -d'

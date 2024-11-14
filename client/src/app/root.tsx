@@ -7,7 +7,7 @@ import { store } from './Store';
 import '@styles/app.scss'
 
 
-function App() {
+export default function App() {
     return (
         <>
             <React.StrictMode>
@@ -18,6 +18,3 @@ function App() {
         </>
     );
 }
-
-
-export default App;
