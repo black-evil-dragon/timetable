@@ -1,0 +1,19 @@
+.edit-panel {
+    position: absolute;
+    right: 0;
+        
+    width: 20%;
+    height: 100%;
+
+    background: #fff;
+
+
+    &__wrapper {
+        display: flex;
+        justify-content: center;
+        align-items: start;
+        flex-direction: column;
+        padding: 1rem;
+        gap: 1rem;
+    }
+}

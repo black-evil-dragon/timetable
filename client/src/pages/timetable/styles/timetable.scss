@@ -1,5 +1,9 @@
 @import '@styles/variables.scss';
 
+
+/*
+* Мне кажется нужно вынести какой-нибуть класс slot для стилизации ячеек и row для столбцов
+*/
 .timetable {
     $component: &;
     // use: #{$component}...
@@ -7,6 +11,32 @@
     $shell-width: 190px;
     $shell-height: 100px;
 
+    display: flex;
+    justify-content: center;
+
+    background-color: #fff;
+    border-radius: 15px;
+
+    margin: 1rem;
+    padding: 1rem;
+
+    
+    &-modal {
+        display: none;
+        &.--active {
+            display: block;
+            position: fixed;
+            top: 0;
+        
+            width: 100%;
+            height: 100%;
+        
+            background-color: #050f2094;
+        }
+
+    }
+
+    
     &-unit {
 
         display: flex;
@@ -34,6 +64,8 @@
                 width: calc($shell-width - 8rem);
                 height: $shell-height;
 
+                margin: 0.5rem 0;
+
                 // background-color: #dadada;
                                             
                 &__start {}
@@ -53,7 +85,10 @@
 
             #{$component}-day {
 
-                background-color: #c5c5c5;
+                border-right: 1px dashed #dfdfdf;
+                border-left: 1px dashed #dfdfdf;
+
+                // background-color: #c5c5c5;
                 padding: .5rem 1rem;
 
                 &__title {
@@ -71,7 +106,9 @@
                         width: $shell-width;
                         height: $shell-height;
 
-                        background-color: #dadada;
+                        margin: 0.5rem 0;
+
+                        // background-color: #dadada;
 
                         #{$component}-item {
 
@@ -84,6 +121,22 @@
                             height: 100%;
 
                             background-color: #fff;
+                            box-shadow: 1px 1px 10px 5px rgba(0, 0, 0, 0.08);
+                            border-radius: 15px;
+
+                            cursor: grab;
+
+                            &.--dragging {
+                                // cursor: grabbing;
+                                box-shadow: inset 1px 1px 10px 5px rgba(0, 0, 0, 0.08);
+                                // box-shadow: none;
+                                opacity: .8;
+                            }
+
+                            &.--preview {
+                                position: absolute;
+                                box-shadow: none;
+                            }
 
                             &__title {}
 
@@ -100,119 +153,4 @@
             }
         }
     }
-
-
-    // position: relative;
-
-    // display: flex;
-
-    // &-test {
-    //     top: 0;
-    //     right: 0;
-    //     position: absolute;
-    // }
-
-    // $shell-width: 18rem;
-    // $shell-height: 8rem;
-
-
-    // &__day {
-    //     display: flex;
-
-    //     padding: 15px 0;
-    // }
-
-    // &__row {
-
-    //     border: 1px solid $theme-color;
-
-
-    //     &.--system {
-    //         flex-grow: 0;
-    //         display: flex;
-    //         justify-content: center;
-    //         align-items: center;
-
-    //         span.day {
-    //             text-orientation: upright;
-    //             writing-mode: vertical-rl;
-
-    //             padding: 15px;
-    //         }
-    //     }
-    // }
-
-    // &__slots {
-    //     display: flex;
-    //     flex-direction: column;
-    //     gap: 10px;
-
-    //     &.--times {
-    //         width: 100%;
-    //         height: 100%;
-    //         justify-content: space-around;
-    //         .time {
-    //             display: flex;
-    //             flex-direction: column;
-    //             justify-content: space-around;
-    //             align-items: center;
-    //         }
-
-    //     }
-
-    //     .slot {
-    //         position: relative;
-
-    //         width: $shell-width;
-    //         height: $shell-height;
-
-    //         margin: 15px;
-
-
-    //         .item {
-    //             width: 100%;
-    //             height: 100%;
-    //             background-color: #fff;
-
-    //             border-radius: 15px;
-
-    //             &.--null {
-    //                 border: 1px solid $theme-color;
-    //                 background-color: initial;
-    //             }
-
-    //             &__title {
-    //                 font-size: 1.25rem;
-
-    //                 text-align: center;
-
-    //                 padding: 15px 0;
-
-    //             }
-
-    //             &__content {
-    //                 display: flex;
-    //                 justify-content: space-around;
-
-    //                 .--content-item {
-    //                     width: calc(100% / 2 - 15px);
-
-    //                     text-align: center;
-    //                 }
-    //             }
-    //         }
-    //     }
-
-
-    //     &.--times {
-    //         .time {
-    //             width: initial;
-    //             height: $shell-height;
-
-    //             border: 1px solid $theme-color;
-    //         }
-    //     }
-    // }
-
-
 }

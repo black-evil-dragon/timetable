@@ -3,7 +3,7 @@ import React from "react";
 import { Input } from "@shared/Input";
 import { EditableField } from "..";
 
-
+import './edit-panel.scss'
 
 
 interface EditPanelProps {
@@ -42,31 +42,33 @@ const EditPanel: React.FunctionComponent<EditPanelProps> = ({
         <>
         
             <div className={`edit-panel`}>
-                <button type="button" className="edit-panel__close" onClick={handleClose}>&times;</button>
+                <div className="edit-panel__wrapper">
+                    <button className="edit-panel__close" onClick={handleClose}>&times;</button>
 
-                <div className="edit-panel__title">
-                    Изменить контент
-                </div>
+                    <div className="edit-panel__title">
+                        Изменить контент
+                    </div>
 
-                <div className="edit-panel__content">
+                    <div className="edit-panel__content">
 
-                    {fields.map((field, fieldIndex) => (
+                        {fields.map((field, fieldIndex) => (
 
-                        <Input key={`editpanel-input-${fieldIndex}`}
-                            {...{
-                                initialValue: field.value,
-                                placeholder: field.placeholder,
-    
-                                onChange: (newValue: string) => handleChange(newValue, fieldIndex),
-                            }
-                        } />
+                            <Input key={`editpanel-input-${fieldIndex}`}
+                                {...{
+                                    initialValue: field.value,
+                                    placeholder: field.placeholder,
 
-                    ))}
+                                    onChange: (newValue: string) => handleChange(newValue, fieldIndex),
+                                }
+                                } />
 
-                    <button type="button" onClick={handleSave}>
-                        Сохранить
-                    </button>
+                        ))}
 
+                        <button type="button" onClick={handleSave}>
+                            Сохранить
+                        </button>
+
+                    </div>
                 </div>
             </div>
 

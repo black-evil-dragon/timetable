@@ -9,18 +9,11 @@ interface renderSlotsPropsType {
     slotPosition: PositionSlotType,
 
     slots?: ItemSlotType[],
-
-    // moveItem: (fromPosition: PositionSlotType, toPosition: PositionSlotType) => void,
-    // manageItemContent: manageItemContentType
 }
 
 export const renderSlots = ({
     slotPosition,
-
     slots,
-
-    // moveItem,
-    // manageItemContent,
 }: renderSlotsPropsType) => {
     
 
