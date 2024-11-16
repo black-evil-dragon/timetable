@@ -1,48 +1,23 @@
 import React from "react";
-import { DndProvider, useDragLayer } from 'react-dnd'
+import { DndProvider } from 'react-dnd'
 import { HTML5Backend } from 'react-dnd-html5-backend'
 
 // Store
 import { useAppDispatch, useAppSelector } from "@app/Store/hooks";
-
-
-// Model - Logic code
-import { renderSlots, ActionsDataSet } from "..";
 import { updateItemContent, manageTimeContent, updateTimeContent } from "../model/slice";
 
 
+// Logic code
+import { ActionsDataSet } from "..";
+import { renderSlots } from "@features/TimetableSlot";
+
+
+// Useful ui, types, hooks
 import { EditableField, EditPanel } from "@features/EditPanel";
 import { ContextMenu } from "@shared/ContextMenu";
 import { useContextMenu } from "@hooks/useContextMenu";
 import { PositionSlotType } from "@shared/types";
 
-
-// const CustomDragLayer = () => {
-//     const { isDragging, item, currentOffset } = useDragLayer((monitor) => ({
-//         isDragging: monitor.isDragging(),
-//         item: monitor.getItem(),
-//         currentOffset: monitor.getClientOffset(),
-//     }));
-
-//     if (!isDragging) {
-//         return null;
-//     }
-
-//     return (
-//         <div
-//             style={{
-//                 position: 'fixed',
-//                 pointerEvents: 'none',
-//                 left: currentOffset?.x,
-//                 top: currentOffset?.y,
-//                 transform: 'translate(-50%, -50%)',
-//                 zIndex: 9999,
-//             }}
-//         >
-//             {item.getJSX()}
-//         </div>
-//     );
-// };
 
 
 interface TimetableCreateProps {
@@ -117,7 +92,7 @@ const TimetableCreate: React.FunctionComponent<TimetableCreateProps> = () => {
                                     {timetable.intervals.map((interval, intervalIndex) => (
                                         <div className="timetable-time" key={`interval-${intervalIndex}`}
                                             onContextMenu={event => handleCMSTime(event, {timetableSlot: timetableIndex, timeSlot: intervalIndex})}
-                                            data-context-menu="time-menu-edit"
+                                            data-context-menu="time-menu-content"
                                             data-time-index={intervalIndex}
                                         >
                                             <span className="timetable-time__start">{interval.start}</span>
@@ -127,9 +102,9 @@ const TimetableCreate: React.FunctionComponent<TimetableCreateProps> = () => {
                                     ))}
 
                                     <div className="timetable-time"
-                                    // onContextMenu={event => handleCMSTime(event, { timetableSlot: timetableIndex, timeSlot: intervalIndex })}
-                                    // data-context-menu="time-menu-edit"
-                                    // data-time-index={intervalIndex}
+                                        onContextMenu={event => handleCMSTime(event, { timetableSlot: timetableIndex })}
+                                        data-context-menu="time-menu-empty"
+                                        // data-time-index={intervalIndex}
                                     >
                                         <span className="timetable-time__title">+</span>
                                         {/* <span className="timetable-time__start">{interval.start}</span>
@@ -138,6 +113,7 @@ const TimetableCreate: React.FunctionComponent<TimetableCreateProps> = () => {
                                     </div>
                                 </div>
                                 <div className="timetable-week">
+                                    
                                     {timetable.days.map((day, dayIndex) => (
                                         <div className="timetable-day" key={`day-${dayIndex}`}>
                                             <div className="timetable-day__title">

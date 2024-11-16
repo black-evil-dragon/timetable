@@ -60,7 +60,7 @@ const timetableSlice = createSlice({
                     break;
                 case 'delete':
                     if (item.data) item.data = null;
-                    state.editItem = null;
+
                     break;
                 case 'edit':
                     if (item.data) {
@@ -100,23 +100,51 @@ const timetableSlice = createSlice({
             action: PayloadAction<{ position: PositionSlotType; actionType: string }>
         ) {
             const { position, actionType } = action.payload;
-            const time = state.timetables[position.timetableSlot].intervals[position.timeSlot!]
+
+            let intervals = state.timetables[position.timetableSlot].intervals
+            let time = intervals[position.timeSlot!]
 
             switch (actionType) {
                 case 'create':
+
+                    state.timetables[position.timetableSlot].intervals = [
+                        ...intervals,
+                        {
+                            id: Math.random().toString(36).substring(2, 9),
+                            slot: intervals.length,
+                            start: '',
+                            end: '',
+                        }
+                    ]
+
                     break;
                 case 'edit':
                     state.editItem = {
                         position: position,
                         target: 'time',
                         editableFields: [
-                            { name: 'start', value: time.start },
-                            { name: 'end', value: time.end },
+                            { name: 'start', value: time.start, type: 'time', placeholder: 'Начало', },
+                            { name: 'end', value: time.end, type: 'time', placeholder: 'Конец', },
                         ],
                     };
                     break;
                 case 'delete':
-                    state.editItem = null;
+                    
+
+                    if (intervals.length === 1) break;
+
+                    state.timetables[position.timetableSlot].intervals = [
+                        ...intervals.slice(0, position.timeSlot!),
+                        ...intervals.slice(position.timeSlot! + 1),
+                    ]
+
+                    state.timetables[position.timetableSlot].days.forEach(day => {
+                        let slots = day.slots
+                        day.slots = [
+                            ...slots.slice(0, position.timeSlot!),
+                            ...slots.slice(position.timeSlot! + 1),
+                        ]
+                    })
 
                     break;
                 default:

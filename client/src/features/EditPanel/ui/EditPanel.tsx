@@ -1,9 +1,17 @@
 import React from "react";
 
+import { TimePicker } from "@mui/x-date-pickers/TimePicker/TimePicker";
+import { renderTimeViewClock } from "@mui/x-date-pickers/timeViewRenderers/timeViewRenderers";
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider/LocalizationProvider";
+
+
 import { Input } from "@shared/Input";
 import { EditableField } from "..";
 
 import './edit-panel.scss'
+import dayjs from "dayjs";
+
 
 
 interface EditPanelProps {
@@ -50,19 +58,41 @@ const EditPanel: React.FunctionComponent<EditPanelProps> = ({
                     </div>
 
                     <div className="edit-panel__content">
+                        <LocalizationProvider dateAdapter={AdapterDayjs}>
+                            {fields.map((field, fieldIndex) => (
 
-                        {fields.map((field, fieldIndex) => (
+                                !field.type ?
+                                    <Input key={`editpanel-input-${fieldIndex}`}
+                                        className="edit-panel__field"
+                                        {...{
+                                            initialValue: field.value,
+                                            placeholder: field.placeholder,
 
-                            <Input key={`editpanel-input-${fieldIndex}`}
-                                {...{
-                                    initialValue: field.value,
-                                    placeholder: field.placeholder,
+                                            onChange: (newValue: string) => handleChange(newValue, fieldIndex),
+                                        }
+                                        }
+                                    />
+                                : field.type === 'time' ?
+                                        <TimePicker
+                                            className="edit-panel__field"
+                                            key={`editpanel-input-${fieldIndex}`}
+                                            label={field.placeholder}
+                                            onChange={(newTime) => handleChange(`${("0" + newTime?.hour()).slice(-2)}:${("0" + newTime?.minute()).slice(-2)}`, fieldIndex)}
+                                            viewRenderers={{
+                                                hours: renderTimeViewClock,
+                                                minutes: renderTimeViewClock,
+                                                seconds: renderTimeViewClock,
+                                            }}
+                                            defaultValue={dayjs(`2024T${field.value}`)}
+                                            ampm={false}
+                                        />
+                                    :
+                                    <>
+                                        Not yet
+                                    </>
 
-                                    onChange: (newValue: string) => handleChange(newValue, fieldIndex),
-                                }
-                                } />
-
-                        ))}
+                            ))}
+                        </LocalizationProvider>
 
                         <button type="button" onClick={handleSave}>
                             Сохранить

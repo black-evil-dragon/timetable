@@ -4,6 +4,8 @@ import { DragPreviewOptions, DragSourceMonitor, useDrag } from "react-dnd";
 
 import { PositionSlotType } from "@shared/types";
 
+import './timetable-item.scss'
+
 
 interface ItemProps {
     id: number | null,
@@ -24,27 +26,11 @@ const Item: React.FunctionComponent<ItemProps> = (props = {
     }
 }) => {
 
-    const [previewJSX, setPreviewJSX] = React.useState<JSX.Element>(<div className={`timetable-item`}>
-        <div className="timetable-item__title">{props.data.title}</div>
-        <div className="timetable-item__content">
-            <div className="timetable-item__teacher --content-item">
-                {props.data.teacher}
-            </div>
-            <div className="timetable-item__cabinet --content-item">
-                {props.data.cabinet}
-            </div>
-        </div>
-    </div>);
-
- 
     const [{ isDragging }, drag, dragPreview] = useDrag(() => ({
         type: 'item',
         item: { 
             slotIndex: props.id,
             slotPosition: props.slotPosition,
-            data: props.data,
-            jsx: previewJSX,
-            getJSX: () => previewJSX,
         },
 
         collect: (monitor) => ({
@@ -57,25 +43,12 @@ const Item: React.FunctionComponent<ItemProps> = (props = {
 
     React.useEffect(() => {
         if (dragPreview && previewRef.current) {
-            dragPreview(previewRef.current); // Используем пустой элемент
+            dragPreview(previewRef.current);
         }
     }, [dragPreview]);
 
     React.useEffect(() => {
-        setPreviewJSX(
-            <div className={`timetable-item`}>
-                <div className="timetable-item__title">{props.data.title}</div>
-                <div className="timetable-item__content">
-                    <div className="timetable-item__teacher --content-item">
-                        {props.data.teacher}
-                    </div>
-                    <div className="timetable-item__cabinet --content-item">
-                        {props.data.cabinet}
-                    </div>
-                </div>
-            </div>
-        );
-    }, [props.data]);
+    }, []);
 
 
     return ( 
@@ -96,20 +69,6 @@ const Item: React.FunctionComponent<ItemProps> = (props = {
                 </div>
             </div>
         </>
-        // <div className={`timetable-item ${isDragging ? '--dragging' : ''}`} ref={drag}>
-        //     <div className="timetable-item__title">
-        //         {props.data.title}
-        //     </div>
-        //     <div className="timetable-item__content">
-        //         <div className="timetable-item__teacher --content-item">
-        //             {props.data.teacher}
-        //         </div>
-
-        //         <div className="timetable-item__cabinet --content-item">
-        //             {props.data.cabinet}
-        //         </div>
-        //     </div>
-        // </div>
     );
 }
 

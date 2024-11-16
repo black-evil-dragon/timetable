@@ -17,6 +17,7 @@ import { manageItemContent, moveItem } from '@features/TimetableCreate/model/sli
 import { useAppDispatch } from '@app/Store/hooks';
 
 
+import './timetable-slot.scss'
 
 interface SlotProps {
     slotPosition: PositionSlotType;
@@ -31,16 +32,13 @@ const Slot: React.FC<SlotProps> = ({
 }) => {
 
     const dispatch = useAppDispatch();
+    const { contextMenuState, ContextMenuManager } = useContextMenu(ActionsDataSet)
+    const [classProps, setClassProps] = React.useState('')
+    const [moved, setMoved] = React.useState(false)
 
-    const handleMoveItem = (fromPosition: PositionSlotType, toPosition: PositionSlotType) => {
-        dispatch(moveItem({
-            fromPosition,
-            toPosition
-        }))
-    }
     
     // Drop events
-    const [{ isOver }, drop] = useDrop({
+    const [{ isOver, monitor }, drop] = useDrop({
         accept: 'item',
         drop: (item: {
             slotPosition: PositionSlotType
@@ -52,12 +50,18 @@ const Slot: React.FC<SlotProps> = ({
         },
         collect: (monitor) => ({
             isOver: !!monitor.isOver(),
+            monitor: monitor,
         }),
     });
 
+    const handleMoveItem = (fromPosition: PositionSlotType, toPosition: PositionSlotType) => {
+        dispatch(moveItem({
+            fromPosition,
+            toPosition
+        }))
+    }
 
-    const { contextMenuState, ContextMenuManager } = useContextMenu(ActionsDataSet)
-    
+
 
     // Logic
     const handleContextMenu = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
@@ -68,13 +72,34 @@ const Slot: React.FC<SlotProps> = ({
             }))
         }})
     }
+
+
+    /*
+    * Вынес логику, чтобы не засорять jsx
+    */
+    React.useEffect(() => {
+        setClassProps([
+            isOver ? '--hovered ' : '',
+            (itemSlot && itemSlot.data) ? '--content ' : '',
+            moved ? '--moved ' : '',
+        ].join(''))
+    
+    }, [isOver, itemSlot, itemSlot?.data, moved])
+
+    React.useEffect(() => {
+        monitor &&
+            JSON.stringify(monitor.getItem()?.slotPosition) === JSON.stringify(slotPosition) ?
+            setMoved(true)
+            :
+            setMoved(false)
+    }, [monitor.getItem()])
     
 
     return (
         <>
             <div
                 ref={drop}
-                className={`timetable-slot ${isOver ? '--hovered' : ''}`}
+                className={`timetable-slot ${classProps}`}
 
                 onContextMenu={handleContextMenu}
 

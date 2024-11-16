@@ -1,4 +1,4 @@
-@import '@styles/variables.scss';
+@import '@styles/variables';
 
 
 /*
@@ -7,9 +7,6 @@
 .timetable {
     $component: &;
     // use: #{$component}...
-
-    $shell-width: 190px;
-    $shell-height: 100px;
 
     display: flex;
     justify-content: center;
@@ -64,9 +61,15 @@
                 width: calc($shell-width - 8rem);
                 height: $shell-height;
 
+                border-radius: 15px;
+
                 margin: 0.5rem 0;
 
-                // background-color: #dadada;
+                transition: box-shadow .25s ease-in-out;
+
+                &:hover {
+                    box-shadow: 1px 1px 10px 5px rgba(0, 0, 0, 0.08);
+                }
                                             
                 &__start {}
 
@@ -97,58 +100,7 @@
                 }
 
                 #{$component}-slots {
-                    #{$component}-slot {
 
-                        display: flex;
-                        justify-content: center;
-                        align-items: center;
-                        
-                        width: $shell-width;
-                        height: $shell-height;
-
-                        margin: 0.5rem 0;
-
-                        // background-color: #dadada;
-
-                        #{$component}-item {
-
-                            display: flex;
-                            justify-content: center;
-                            align-items: center;
-                            flex-direction: column;
-
-                            width: 100%;
-                            height: 100%;
-
-                            background-color: #fff;
-                            box-shadow: 1px 1px 10px 5px rgba(0, 0, 0, 0.08);
-                            border-radius: 15px;
-
-                            cursor: grab;
-
-                            &.--dragging {
-                                // cursor: grabbing;
-                                box-shadow: inset 1px 1px 10px 5px rgba(0, 0, 0, 0.08);
-                                // box-shadow: none;
-                                opacity: .8;
-                            }
-
-                            &.--preview {
-                                position: absolute;
-                                box-shadow: none;
-                            }
-
-                            &__title {}
-
-                            &__content {}
-
-                            &__teacher {}
-
-                            &__cabinet {
-                                text-align: center;
-                            }
-                        }
-                    }
                 }
             }
         }
