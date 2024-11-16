@@ -22,6 +22,10 @@
 
 In the project directory, you can run:
 
+### `npm install`
+
+Download all dependences.
+
 ### `npm start`
 
 Runs the app in the development mode.\
