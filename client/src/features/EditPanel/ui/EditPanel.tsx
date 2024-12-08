@@ -1,16 +1,25 @@
 import React from "react";
 
+// Time 
+import dayjs from "dayjs";
+
 import { TimePicker } from "@mui/x-date-pickers/TimePicker/TimePicker";
 import { renderTimeViewClock } from "@mui/x-date-pickers/timeViewRenderers/timeViewRenderers";
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider/LocalizationProvider";
 
-
-import { Input } from "@shared/Input";
+// Component model
 import { EditableField } from "..";
 
+// Imports
+import { Input } from "@shared/Input";
+import { useAppDispatch } from "@app/Store/hooks";
+import { NotificationManager } from "@entities/Notification";
+
+
+// Styles
 import './edit-panel.scss'
-import dayjs from "dayjs";
+
 
 
 
@@ -26,6 +35,7 @@ const EditPanel: React.FunctionComponent<EditPanelProps> = ({
     onSave,
 }) => {
 
+    const dispatch = useAppDispatch();
     const [fields, setFields] = React.useState<EditableField[]>(editableFields);
     const [editedFields, setEditedFields] = React.useState<EditableField[]>(editableFields);
 
@@ -38,7 +48,23 @@ const EditPanel: React.FunctionComponent<EditPanelProps> = ({
     };
 
     const handleSave = () => {
-        onSave(editedFields);
+        try {
+            dispatch(NotificationManager.add({
+                title: 'Успешно!',
+                options: {
+                    autoDelete: {
+                        duration: 3500,
+                    }
+                }
+            }))
+
+            onSave(editedFields);
+        } catch (error) {
+            dispatch(NotificationManager.add({
+                title: 'Ошибка!',
+            }))
+            console.error(error);
+        }
     };
 
     const handleClose = () => {
@@ -105,5 +131,5 @@ const EditPanel: React.FunctionComponent<EditPanelProps> = ({
         </>
     );
 }
- 
+
 export default EditPanel;

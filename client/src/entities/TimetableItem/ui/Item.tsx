@@ -31,10 +31,11 @@ const Item: React.FunctionComponent<ItemProps> = (props = {
         item: { 
             slotIndex: props.id,
             slotPosition: props.slotPosition,
+            isDrag: false,
         },
 
         collect: (monitor) => ({
-            isDragging: !!monitor.isDragging(),
+            isDragging: !!monitor.isDragging()
         }),
     }));
 

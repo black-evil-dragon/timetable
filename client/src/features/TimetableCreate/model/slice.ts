@@ -3,7 +3,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { TimetableType } from '@pages/timetable';
 import { PositionSlotType } from '@shared/types';
 import { EditableField } from '@features/EditPanel';
-import { TimeSlotType } from '../types';
+import { NotificationManager } from '@entities/Notification';
 
 
 interface TimetableState {
@@ -19,6 +19,7 @@ const initialState: TimetableState = {
     timetables: [],
     editItem: null,
 };
+
 
 const timetableSlice = createSlice({
     name: 'timetable',
@@ -57,6 +58,17 @@ const timetableSlice = createSlice({
                         teacher: 'Организатор',
                         cabinet: 'Место',
                     };
+
+                    state.editItem = {
+                        position: position,
+                        target: 'item',
+                        editableFields: [
+                            { name: 'title', value: item.data.title },
+                            { name: 'cabinet', value: item.data.cabinet },
+                            { name: 'teacher', value: item.data.teacher },
+                        ],
+                    };
+
                     break;
                 case 'delete':
                     if (item.data) item.data = null;
@@ -164,8 +176,13 @@ const timetableSlice = createSlice({
                 } else if (field.name === 'end') {
                     time.end = field.value;
                 }
-                
             });
+            
+            if (time.start > time.end) {
+                let time_temp = time.end
+                time.end = time.start
+                time.start = time_temp
+            }
 
             state.editItem = null;
         },

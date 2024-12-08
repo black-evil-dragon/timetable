@@ -40,13 +40,13 @@ const Input: React.FunctionComponent<InputProps> = ({
     React.useEffect(() => {
         if (placeholder && !value) {
             focus ?
-                labelRef.current?.classList.add('moved')
+                labelRef.current?.classList.add('--moved')
                 :
-                labelRef.current?.classList.remove('moved')
+                labelRef.current?.classList.remove('--moved')
         } else if (placeholder && value) {
-            labelRef.current?.classList.add('moved')    
+            labelRef.current?.classList.add('--moved')    
         }
-    }, [focus])
+    }, [focus, value])
 
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -56,6 +56,7 @@ const Input: React.FunctionComponent<InputProps> = ({
         setValue(new_value)
         onChange(new_value)
     }
+
 
     return (
         <>
@@ -73,6 +74,7 @@ const Input: React.FunctionComponent<InputProps> = ({
                     type={type}
 
                     value={value}
+                    autoComplete='new-password'
 
                     onChange={handleChange}
 

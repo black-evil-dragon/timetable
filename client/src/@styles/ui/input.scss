@@ -12,7 +12,7 @@
         font-size: .75rem;
 
         top: 26%;
-        left: 4%;
+        left: 28px;
 
         margin: 2.5% 0 0;
 
@@ -20,7 +20,7 @@
 
         // transition: font-size .1s ease-in-out;
 
-        &.moved {
+        &.--moved {
             font-size: .5rem;
             margin: -1%;
         }
@@ -37,11 +37,11 @@
 
         width: 100%;
 
-        border: 2px solid $theme-light;
+        // border: 2px solid $theme-light;
         border-radius: $border-radius;
         outline: none;
 
-        padding: 15px 10px 10px;
+        padding: 15px 25px;
         margin: 5px 0;
 
         transition: border-color .5s ease-in-out;

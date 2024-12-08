@@ -78,82 +78,80 @@ const TimetableCreate: React.FunctionComponent<TimetableCreateProps> = () => {
         <>
             <DndProvider backend={HTML5Backend}>
                 <div className="timetable">
-                    {
-                        // Timetable
-                        timetables.map((timetable, timetableIndex) => (
-                            <div className="timetable-unit" key={`timetable-unit-${timetableIndex}`}>
-                                <div className="timetable-unit__title">
-                                    {timetable.title}
-                                </div>
-                                <div className="timetable-interval">
-                                    <div className="timetable-interval__title">
-                                        Время
+                    <div className="timetable__wrapper">
+                        {
+                            // Timetable
+                            timetables.map((timetable, timetableIndex) => (
+                                <div className="timetable-unit" key={`timetable-unit-${timetableIndex}`}>
+                                    <div className="timetable-unit__title">
+                                        {timetable.title}
                                     </div>
-                                    {timetable.intervals.map((interval, intervalIndex) => (
-                                        <div className="timetable-time" key={`interval-${intervalIndex}`}
-                                            onContextMenu={event => handleCMSTime(event, {timetableSlot: timetableIndex, timeSlot: intervalIndex})}
-                                            data-context-menu="time-menu-content"
-                                            data-time-index={intervalIndex}
+                                    <div className="timetable-interval">
+                                        <div className="timetable-interval__title">
+                                            Время
+                                        </div>
+                                        {timetable.intervals.map((interval, intervalIndex) => (
+                                            <div className="timetable-time" key={`interval-${intervalIndex}`}
+                                                onContextMenu={event => handleCMSTime(event, { timetableSlot: timetableIndex, timeSlot: intervalIndex })}
+                                                data-context-menu="time-menu-content"
+                                                data-time-index={intervalIndex}
+                                            >
+                                                <span className="timetable-time__start">{interval.start}</span>
+                                                {(interval.start && interval.end) && <span className="timetable-time__separator">-</span>}
+                                                <span className="timetable-time__end">{interval.end}</span>
+                                            </div>
+                                        ))}
+
+                                        <div className="timetable-time --empty"
+                                            onContextMenu={event => handleCMSTime(event, { timetableSlot: timetableIndex })}
+                                            data-context-menu="time-menu-empty"
                                         >
-                                            <span className="timetable-time__start">{interval.start}</span>
-                                            <span className="timetable-time__separator">-</span>
-                                            <span className="timetable-time__end">{interval.end}</span>
+                                            <span className="timetable-time__title">+</span>
                                         </div>
-                                    ))}
+                                    </div>
+                                    <div className="timetable-week">
 
-                                    <div className="timetable-time"
-                                        onContextMenu={event => handleCMSTime(event, { timetableSlot: timetableIndex })}
-                                        data-context-menu="time-menu-empty"
-                                        // data-time-index={intervalIndex}
-                                    >
-                                        <span className="timetable-time__title">+</span>
-                                        {/* <span className="timetable-time__start">{interval.start}</span>
-                                        <span className="timetable-time__separator">-</span>
-                                        <span className="timetable-time__end">{interval.end}</span> */}
+                                        {timetable.days.map((day, dayIndex) => (
+                                            <div className="timetable-day" key={`day-${dayIndex}`}>
+                                                <div className="timetable-day__title">
+                                                    {day.title}
+                                                </div>
+                                                <div className="timetable-slots">
+                                                    {(() => {
+                                                        const data = {
+                                                            slotPosition: {
+                                                                timetableSlot: timetableIndex,
+                                                                daySlot: dayIndex,
+                                                            },
+                                                            slots: day.slots,
+                                                        }
+
+                                                        return renderSlots({ ...data })
+                                                    })()}
+                                                </div>
+                                            </div>
+                                        ))}
                                     </div>
                                 </div>
-                                <div className="timetable-week">
-                                    
-                                    {timetable.days.map((day, dayIndex) => (
-                                        <div className="timetable-day" key={`day-${dayIndex}`}>
-                                            <div className="timetable-day__title">
-                                                {day.title}
-                                            </div>
-                                            <div className="timetable-slots">
-                                                {(() => {
-                                                    const data = {
-                                                        slotPosition: {
-                                                            timetableSlot: timetableIndex,
-                                                            daySlot: dayIndex,
-                                                        },
-                                                        slots: day.slots,
-                                                        // moveItem,
-                                                        // manageItemContent,
-                                                    }
+                            ))
+                        }
 
-                                                    return renderSlots({ ...data })
-                                                })()}
-                                            </div>
-                                        </div>
-                                    ))}
-                                </div>
-                            </div>
-                        ))
-                    }
 
-                    {/* Context Menu-s */}
-                    {contextMenuState && (
-                        <ContextMenu {...contextMenuState} />
-                    )}
-                    {/* -=- */}
 
-                    <div className={`timetable-modal ${editItem ? '--active' : ''}`}>
-                        {editItem && (
-                            <EditPanel
-                                editableFields={editItem.editableFields}
-                                onSave={handleEditSubmit}
-                            />
+                        {/* Context Menu */}
+                        {contextMenuState && (
+                            <ContextMenu {...contextMenuState} />
                         )}
+                        {/* -=- */}
+
+                        <div className={`timetable-modal ${editItem ? '--active' : ''}`}>
+                            {editItem && (
+                                <EditPanel
+                                    editableFields={editItem.editableFields}
+                                    onSave={handleEditSubmit}
+                                />
+                            )}
+                        </div>
                     </div>
                 </div>
 

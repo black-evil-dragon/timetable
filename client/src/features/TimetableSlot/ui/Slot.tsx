@@ -16,8 +16,10 @@ import { ActionsDataSet } from '..';
 import { manageItemContent, moveItem } from '@features/TimetableCreate/model/slice';
 import { useAppDispatch } from '@app/Store/hooks';
 
-
 import './timetable-slot.scss'
+import { NotificationManager } from '@entities/Notification';
+
+
 
 interface SlotProps {
     slotPosition: PositionSlotType;
@@ -32,13 +34,15 @@ const Slot: React.FC<SlotProps> = ({
 }) => {
 
     const dispatch = useAppDispatch();
+
     const { contextMenuState, ContextMenuManager } = useContextMenu(ActionsDataSet)
+
     const [classProps, setClassProps] = React.useState('')
     const [moved, setMoved] = React.useState(false)
 
     
     // Drop events
-    const [{ isOver, monitor }, drop] = useDrop({
+    const [{ isOver, dropMonitor }, drop] = useDrop({
         accept: 'item',
         drop: (item: {
             slotPosition: PositionSlotType
@@ -50,7 +54,7 @@ const Slot: React.FC<SlotProps> = ({
         },
         collect: (monitor) => ({
             isOver: !!monitor.isOver(),
-            monitor: monitor,
+            dropMonitor: monitor,
         }),
     });
 
@@ -66,10 +70,17 @@ const Slot: React.FC<SlotProps> = ({
     // Logic
     const handleContextMenu = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
         ContextMenuManager.set(event, { onAction(action) {
-            dispatch(manageItemContent({
-                position: slotPosition,
-                actionType: action
-            }))
+            try {
+                dispatch(manageItemContent({
+                    position: slotPosition,
+                    actionType: action
+                }))
+
+            } catch (error) {
+                dispatch(NotificationManager.add({
+                    title: 'Ошибка!',
+                }))
+            }
         }})
     }
 
@@ -85,14 +96,15 @@ const Slot: React.FC<SlotProps> = ({
         ].join(''))
     
     }, [isOver, itemSlot, itemSlot?.data, moved])
+    
 
     React.useEffect(() => {
-        monitor &&
-            JSON.stringify(monitor.getItem()?.slotPosition) === JSON.stringify(slotPosition) ?
+        dropMonitor &&
+            JSON.stringify(dropMonitor.getItem()?.slotPosition) === JSON.stringify(slotPosition) ?
             setMoved(true)
             :
             setMoved(false)
-    }, [monitor.getItem()])
+    }, [dropMonitor.getItem()])
     
 
     return (

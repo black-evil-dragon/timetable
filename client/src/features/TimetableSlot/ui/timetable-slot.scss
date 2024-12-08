@@ -16,19 +16,21 @@
 
         transition: box-shadow .25s ease-in-out;
 
+        // border-top: 1px solid #000;
+        // border-bottom: 1px solid #000;
+
+
         &:hover {
             box-shadow: inset 1px 1px 10px 3px rgb(0 0 0 / 3%);
         }
 
-
         &.--content {
-            box-shadow: 1px 1px 10px 5px rgba(0, 0, 0, 0.08);
-            .timetable-item.--dragging {
-                box-shadow: inset 1px 1px 10px 5px rgba(0, 0, 0, 0.08);
+            .timetable-item {
+                box-shadow: 1px 1px 10px 5px rgba(0, 0, 0, 0.08);
             }
         }
 
-        &.--hovered, &.--moved, .timetable-item.--dragging {
+        &:hover, &.--hovered, &.--moved, .timetable-item.--dragging {
             box-shadow: inset 1px 1px 10px 5px rgba(0, 0, 0, 0.08);  
         }
     }

@@ -8,14 +8,17 @@
     $component: &;
     // use: #{$component}...
 
-    display: flex;
-    justify-content: center;
-
-    background-color: #fff;
-    border-radius: 15px;
-
-    margin: 1rem;
     padding: 1rem;
+
+    &__wrapper {
+        display: flex;
+        justify-content: center;
+    
+        background-color: #fff;
+        border-radius: 15px;
+    
+        padding: 1rem;
+    }
 
     
     &-modal {
@@ -45,11 +48,11 @@
 
         #{$component}-interval {
 
-            display: flex;
-            justify-content: end;
-            flex-direction: column;
-
             padding: .5rem 1rem;
+
+            &__title {
+                margin-bottom: 0.5rem;
+            }
 
             #{$component}-time {
 
@@ -67,6 +70,10 @@
 
                 transition: box-shadow .25s ease-in-out;
 
+                &.--empty {
+                    height: calc($shell-height / 2);
+                }
+
                 &:hover {
                     box-shadow: 1px 1px 10px 5px rgba(0, 0, 0, 0.08);
                 }
@@ -82,9 +89,7 @@
         #{$component}-week {
     
             display: flex;
-            gap: 1rem;
-
-            
+            gap: 1rem;    
 
             #{$component}-day {
 
@@ -97,10 +102,6 @@
                 &__title {
                     text-align: center;
                     margin-bottom: .5rem;
-                }
-
-                #{$component}-slots {
-
                 }
             }
         }

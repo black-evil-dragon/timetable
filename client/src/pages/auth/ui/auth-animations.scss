@@ -1,0 +1,93 @@
+@import '@styles/variables';
+
+@keyframes typing {
+    from {
+        width: 0;
+        opacity: 1;
+    }
+
+    to {
+        width: 100%;
+        opacity: 1;
+    }
+}
+
+@keyframes blink-caret {
+    from,
+    to {
+        border-color: transparent;
+    }
+
+    50% {
+        border-color: $text-color;
+    }
+
+    100% {
+        border-color: transparent;
+    }
+
+}
+
+@keyframes orbit-1 {
+    0% {
+        transform: rotate(0deg) translate(0, 0);
+    }
+
+    50% {
+        transform: rotate(360deg) translate(10px, -100px) scale(1.5);
+    }
+
+    75% {
+        transform: rotate(0) translate(0, 0) scale(1);
+    }
+
+    100% {
+        transform: rotate(-180deg) translate(10px, -100px);
+    }
+}
+
+@keyframes orbit-2 {
+    to {
+        transform: rotate(0) translate(0, 0);
+        background-color: #0039d1;
+    }
+
+    from {
+        transform: rotate(-180deg) translate(10px, -100px) scale(1.25);
+    }
+}
+
+@keyframes orbit-3 {
+    from {
+        transform: rotate(0) translate(0, 0);
+    }
+
+    to {
+        transform: rotate(-180deg) translate(10px, -100px) scale(1.5);
+    }
+}
+
+@keyframes slide-in {
+    0% {
+        opacity: 0;
+        transform: translateX(-100%);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@mixin smooth-underline() {
+    text-decoration: none;
+    background-image: linear-gradient(currentColor, currentColor);
+    background-position: 0% 100%;
+    background-repeat: no-repeat;
+    background-size: 0% 1px;
+    transition: background-size .4s;
+
+    &:hover {
+        background-size: 100% 1px;
+    }
+}
