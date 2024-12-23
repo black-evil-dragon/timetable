@@ -14,8 +14,6 @@ interface UserInformation {
 }
 
 interface UserPreferences {
-    // theme: 
-    // language
     timezone: string,
 }
 
